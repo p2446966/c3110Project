@@ -1,0 +1,35 @@
+from the blackboard spec;
+
+I have created a few placeholders in the project for
+various things such as templates, wrappers etc. just so
+we have a basic frame to build the project on
+
+- use a soap client to download SMS messages from the m2m server
+    *will need;
+        - a soap wrapper
+- parse all downloaded messages
+    *will need;
+        - the SMS server stores messages in XML format
+        - sanitise and parse XML
+- validate all content
+- store downloaded messages (content, metadata) in database
+    *will need;
+        - a database wrapper to send data to the database
+        - an SQL wrapper to query the database
+        project spec mentions Doctrine for databases but I never used it
+- display message content on web-browser
+    - metadata
+        - source SIM
+        - name
+        - email
+        - timestamp
+    - content
+        - state of switches on board
+        - temperature
+        - key-pad value
+    *will need;
+        - twig templates
+        - Model classes
+        - routes to render the webpages
+
+There are optional features on the marking scheme for extra marks but we can always worry about them another time
