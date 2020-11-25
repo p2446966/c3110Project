@@ -20,9 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `apiproject`
 --
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `users`
 --
