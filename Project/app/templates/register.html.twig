@@ -1,0 +1,48 @@
+{% extends 'header.html.twig' %}
+{% block extra_meta %}<link rel="stylesheet" href="/resources/css/login.css" type="text/css"/>{% endblock %}
+{% block title %}NexHub{% endblock %}
+{% block content %}
+    {% include 'background.html.twig' %} <!--Must be before other content (Otherwise white spaced bar likely).-->
+    {% include 'navbar.html.twig' %}
+    <div class="login">
+        <h1>Register</h1>
+        <div class="login-char-warning"><p>Illegal Chars: ( ) } { @ # / < > , [ ] \ , ' | "</p></div>
+        <form action="auth-register" method="post">
+            <label for="username">
+                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/person-outline.svg"/>
+            </label>
+            <input type="text" name="username" placeholder="Username" id="username" required pattern="[^()}{/<>#,[\]\\,'|\x22]+"/>
+
+            <label for="password">
+                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/lock-outline.svg"/>
+            </label>
+            <input type="password" name="password" placeholder="Password" id="password" required>
+
+            <label for="password-confirm" class="empty">
+                <!-- empty -->
+            </label>
+            <input type="password" name="password-confirm" placeholder="Confirm Password" id="password-confirm" required>
+
+            <label for="email">
+                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/email-outline.svg"/>
+            </label>
+            <input type="email" name="email" placeholder="Email" id="email" required pattern="[^()}{/<>#,[\]\\,'|\x22]+">
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+    <script>
+        var password = document.getElementById("password"), confirm_password = document.getElementById("password-confirm");
+
+        function validatePassword(){
+            if(password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+    </script>
+{% endblock %}
