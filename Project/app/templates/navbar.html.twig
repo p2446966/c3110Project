@@ -1,5 +1,36 @@
 <nav>
+    <img src="/favicon.ico" width="34" height="34">
     <a href="/">Home</a>
+    <a href="/soap">Soap</a>
+    <a href="#" class="navbar-login" onclick="resizenavbarcontent();  toggleShow()">{% block account_button %}{{ username }}{% endblock %} &#10515;</a>
 </nav>
+<div class="navbar-dropdown">
+    <div class="navbar-dropdown-content">
+        <a href="{{ loginFirstLink }}">{{ loginFirstText }}</a>
+        <a href="{{ loginSecondLink }}">{{ loginSecondText }}</a>
+    </div>
+</div>
+<div id="navbar-spacer"></div>
 <script>
+    //Fist run through stuff
+    $(".navbar-dropdown-content a").toggle();
+
+    var width = $('nav a.navbar-login').outerWidth();
+    $('.navbar-dropdown-content').css('width', width);
+    //
+
+    $(window).resize(function(){
+        var width = $('nav a.navbar-login').outerWidth();
+        $('.navbar-dropdown-content').css('width', width);
+    });
+
+    //onclicks
+    function resizenavbarcontent() {
+        var width = $('nav a.navbar-login').outerWidth();
+        $('.navbar-dropdown-content').css('width', width);
+    }
+
+    function toggleShow() {
+        $(".navbar-dropdown-content a").toggle();
+    }
 </script>
