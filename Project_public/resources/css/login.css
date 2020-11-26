@@ -1,0 +1,81 @@
+.login {
+    width: 400px;
+    background-color: rgba(83, 83, 83, 0.75);
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 100px auto;
+
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border-radius: 6px;
+    opacity: 95%;
+}
+.login h1 {
+    text-align: center;
+    color: crimson;
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid #a19a9a;
+}
+
+div.login-char-warning {
+    background-color: crimson;
+    width: 100%;
+}
+
+.login form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+.login form label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: crimson;
+    color: #3d3d3d;
+}
+.login form label.empty {
+    opacity: 0%;
+}
+
+.login form label img {
+    width: 35px;
+    height: 35px;
+}
+
+.login form input {
+    background-color: #111111;
+}
+
+.login form input {
+    width: 310px;
+    height: 50px;
+    border: 1px solid #a19a9a;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    color: white;
+}
+
+.login form input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 0;
+    background-color: crimson;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    transition: background-color 0.2s;
+    border-radius: 0 0 6px 6px;
+}
+.login form input[type="submit"]:hover {
+    background-color: crimson;
+    transition: background-color 0.2s;
+}

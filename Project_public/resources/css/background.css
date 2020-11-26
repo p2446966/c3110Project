@@ -1,0 +1,41 @@
+html, body, div, span, canvas { margin:0; padding:0; }
+#container {
+    overflow:hidden;
+    position:fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+.dot{
+    width:5px;
+    height:5px;
+    position:fixed;
+    background-color: #dcf840;
+    box-shadow:0px 0px 10px 2px #f3ae00;
+    border-radius: 20px;
+    z-index:-1;
+}
+
+#container-img {
+    overflow:hidden;
+    position:fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image:url("/resources/img/background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    transform: scale(1.1);
+    z-index: -2;
+}
+
+.blur {
+    -webkit-filter: blur(16px);
+    -moz-filter: blur(16px);
+    -o-filter: blur(16);
+    -ms-filter: blur(16px);
+    filter: blur(16px);
+}
+

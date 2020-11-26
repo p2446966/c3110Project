@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url(../fonts/bebasneue/BebasNeue-Regular.eot);
+    src: url(../fonts/bebasneue/BebasNeue-Regular.eot?#iefix) format('embedded-opentype'),
+    url(../fonts/bebasneue/BebasNeue-Regular.woff) format('woff'),
+    url(../fonts/bebasneue/BebasNeue-Regular.ttf) format('truetype');
+
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    margin:0px;
+}
+
+nav {
+    list-style-type: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    background-color: #3b3b3b;
+    padding: 7px;
+    margin:0px;
+    border: 0px;
+    position: absolute;
+    width: 100vw;
+    display:inline-block;
+    float: none;
+}
+
+nav img {
+    margin-top: -5px;
+    margin-bottom: -11px;
+    padding-right: 5px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding-left: 6px;
+    padding-right: 6px;
+    alignment: bottom;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: -2px;
+}
+
+nav a:hover {
+    background-color: #494949;
+    color: white;
+    text-decoration: none;
+}
