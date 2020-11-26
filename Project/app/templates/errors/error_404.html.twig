@@ -1,0 +1,14 @@
+{% extends 'header.html.twig' %}
+{% block title %}NexHub{% endblock %}
+{% block content %}
+    {% include 'background.html.twig' %} <!--Must be before other content (Otherwise white spaced bar likely).-->
+    {% include 'navbar.html.twig' %}
+    <div class="page-container">
+        <h2 class="slide" id="welcome-header">Error 404: That request wasn't found.</h2>
+    </div>
+    <script>
+        $("#welcome-header").click(function(){
+            $("#welcome-header").fadeOut(1000);
+        });
+    </script>
+{% endblock %}
