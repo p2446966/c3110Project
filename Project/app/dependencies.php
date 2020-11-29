@@ -5,6 +5,7 @@ require 'vendor\autoload.php';
 require 'Project/app/src/Validator.php',
 require 'Project/app/src/SoapWrapper.php',
 require 'Project/app/src/XMLParser.php',
+require 'Project/app/src/DatabaseWrapper.php',
 require 'Project/app/src/SQLQueries.php'
 
 //pre-fab code to register twig templates into slim
@@ -39,6 +40,11 @@ $container['soapWrapper'] = function ($container) {
 $container['xmlParser'] = function ($container) {
     $xmlParser = new \Telemetry\XMLParser();
     return $xmlParser;
+};
+
+$container['databaseWrapper'] = function ($container) {
+    $databaseWrapper = new \Telemetry\DatabaseWrapper();
+    return $databaseWrapper;
 };
 
 $container['SQLQueries'] = function ($container) {
