@@ -92,7 +92,7 @@ class SoapWrapper
         {
             try
             {
-                $call_result = $soap_client->__soapCall("readMessages",
+                $call_result = $soap_client->__soapCall("peekMessages",
                 [
                     $username,
                     $password,
