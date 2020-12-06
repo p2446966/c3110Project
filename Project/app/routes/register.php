@@ -27,7 +27,8 @@ $app->post('/auth-register', function (Request $request, Response $response) use
     $cleaned_params = $validator->validateInput($params);
 
     $database = $app->getContainer()->get('SQLQueries');
-    $register_success = $database->registerQuery($cleaned_params['username'], $cleaned_params['password'], $cleaned_params['email']);
+    $db_login = $app->getContainer()->get('settings');
+    $register_success = $database->registerQuery($db_login['database_settings'], $cleaned_params['username'], $cleaned_params['password'], $cleaned_params['email']);
 
     if ($register_success == true)
     {
