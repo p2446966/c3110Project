@@ -43,6 +43,35 @@ class Validator
         return $cleaned_string;
     }
 
+    //filters, sanitises and returns telemetry
+    // switch : 4 digit 1 or 0
+    // fan : 'forward' or 'reverse'
+    // heater : integer
+    // keypad : integer
+    public function validateTelemetry($tainted_telemetry)
+    {
+        foreach ($tainted_telemetry->message->switch as $char)
+        {
+            if ($char != "0" or $char != "1")
+            {
+                return false;
+            }
+        }
+        if ($tainted_telemetry->message->fan != "forward" or $tainted_telemetry->message->fan != "reverse")
+        {
+            return false;
+        }
+        if (!is_int($tainted_telemetry->message->heater))
+        {
+            return false;
+        }
+        if (!is_int($tainted_telemetry->message->keypad))
+        {
+            return false;
+        }
+        return true;
+    }
+
     public function testExistence()
     {
         return "This class and method can be found";
