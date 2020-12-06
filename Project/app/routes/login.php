@@ -26,7 +26,8 @@ $app->post('/auth-login', function (Request $request, Response $response) use ($
     $login_params = $validator->validateInput($params);
 
     $database = $app->getContainer()->get('SQLQueries');
-    $login_success = $database->loginQuery($login_params['username'], $login_params['password']);
+    $db_login = $app->getContainer()->get('settings');
+    $login_success = $database->loginQuery($db_login['database_settings'], $login_params['username'], $login_params['password']);
 
     if ($login_success == true)
     {
