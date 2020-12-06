@@ -18,9 +18,10 @@ class SQLQueries extends DatabaseWrapper
     public function __construct() {}
     public function __destruct() {}
 
-    public function loginQuery($username, $password)
+    public function loginQuery($db_details, $username, $password)
     {
         $success = false;
+        $this->establishConn($db_details); //establish database connection using parent class
         $query = $this->getUser . $username;
         $stmt = $this->database->prepare($query);
 
@@ -48,13 +49,14 @@ class SQLQueries extends DatabaseWrapper
 
         $stmt->free_result();
         $stmt->close();
+        $this->disconnectConn();
         return $success;
     }
 
-    public function registerQuery($username, $password, $email)
+    public function registerQuery($db_details, $username, $password, $email)
     {
         $result = false;
-
+        $this->establishConn($db_details);
         $id = hexdec(uniqid());
         $query = $this->addUser;
 
@@ -70,6 +72,7 @@ class SQLQueries extends DatabaseWrapper
 
         $stmt->free_result();
         $stmt->close();
+        $this->disconnectConn();
 
         switch ($sqlerrorno)
         {
