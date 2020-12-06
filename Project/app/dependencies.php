@@ -7,6 +7,7 @@ require 'Project/app/src/SoapWrapper.php';
 require 'Project/app/src/XMLParser.php';
 require 'Project/app/src/DatabaseWrapper.php';
 require 'Project/app/src/SQLQueries.php';
+require 'Project/app/src/SessionsModel.php';
 
 //pre-fab code to register twig templates into slim
 
@@ -50,4 +51,9 @@ $container['databaseWrapper'] = function ($container) {
 $container['SQLQueries'] = function ($container) {
     $SQLQueries = new \Telemetry\SQLQueries();
     return $SQLQueries;
+};
+
+$container['sessionsModel'] = function ($container) {
+    $sessionsModel = new \Telemetry\SessionsModel();
+    return $sessionsModel;
 };
