@@ -1,13 +1,13 @@
 {% extends 'header.html.twig' %}
 {% block title %}NexHub{% endblock %}
 {% block content %}
-    {% include 'background.html.twig' %} <!--Must be before other content (Otherwise white spaced bar likely).-->
+    {% include 'background.html.twig' %} <!---->
     {% include 'navbar.html.twig' %}
     <div class="page-container">
         <h2 class="slide" id="welcome-header">Welcome!</h2>
     </div>
     <script>
-        $("#welcome-header").click(function(){
+        $("#welcome-header").click(function(){ <!-- use to hide elemement-->
             $("#welcome-header").fadeOut(1000);
         });
     </script>
