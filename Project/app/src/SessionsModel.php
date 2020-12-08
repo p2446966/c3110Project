@@ -13,7 +13,7 @@ class SessionsModel
     {
         if (isset($_SESSION['Logged_in']) && $_SESSION['Logged_in'])
         {
-            $twigsArray = [
+            return  [
             'username' => $_SESSION['USERNAME'],
             'loginFirstLink' => "#",
             'loginFirstText' => "Placeholder",
@@ -21,7 +21,7 @@ class SessionsModel
             'loginSecondText' => "Logout",
         ];
         } else {
-            $twigsArray = [
+            return [
             'username' => "Accounts",
             'loginFirstLink' => "/login",
             'loginFirstText' => "Login",
@@ -29,6 +29,5 @@ class SessionsModel
             'loginSecondText' => "Register",
         ];
         }
-        return $twigsArray;
     }
 }
