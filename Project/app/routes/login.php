@@ -27,17 +27,18 @@ $app->post('/auth-login', function (Request $request, Response $response) use ($
 
     $database = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
-    $login_success = $database->loginQuery($db_login['database_settings'], $login_params['username'], $login_params['password']);
+
+    $login_success = $database->loginQuery($db_login['database_settings'], $login_params[0], $login_params[1]);
 
     if ($login_success == true)
     {
         $_SESSION['Logged_in'] = true;
-        $log->info('Login Success: ' . $login_params['username']);
+        $log->info('Login Success: ' . $login_params[0]);
     }
     else
     {
         $_SESSION['Logged_in'] = false;
-        $log->info('Login Attempt: ' . $login_params['username']);
+        $log->info('Login Attempt: ' . $login_params[0]);
     }
 
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();

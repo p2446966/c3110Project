@@ -22,11 +22,17 @@ class SQLQueries extends DatabaseWrapper
     {
         $success = false;
         $this->establishConn($db_details); //establish database connection using parent class
-        $query = $this->getUser . $username;
-        $stmt = $this->database->prepare($query);
+
+        $stmt = $this->database->prepare($this->getUser);
+        $stmt->bind_param("s", $username);
+
+        if (!$stmt) { //Return false if prepare failed.
+            return $success;
+        }
 
         $stmt->execute();
         $result = $stmt->get_result();
+
         $num_of_rows = $result->num_rows;
 
         if ($num_of_rows > 0)
@@ -63,7 +69,7 @@ class SQLQueries extends DatabaseWrapper
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("isss", $id, $username, $email, $password);
         //could use a do while in case generated id is taken
-        //although i think sql has an autogenerate primary key anyway
+        //although i think sql has an autogenerate primary key anyway..... Note from Callum: it has UUID() but in testing it always generated the same. will try again.
         $stmt->execute();
 
         //keeping errors
