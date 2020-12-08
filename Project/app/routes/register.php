@@ -10,7 +10,7 @@ use Monolog\Handler\StreamHandler;
 $app->get('/register', function (Request $request, Response $response) use ($app) {
     session_start();
 
-    $twigsArray = getPlaceholders($app);
+    $twigsArray = getPlaceholders($app->getContainer()->get('sessionsModel')->getStatus());
     return $this->view->render($response, 'register.html.twig', $twigsArray);
 })->setName('Register');
 
@@ -41,13 +41,7 @@ $app->post('/auth-register', function (Request $request, Response $response) use
         $log->info('Register Failure: ' . $cleaned_params['username']);
     }
 
-    $twigsArray = getPlaceholders($app);
+    $twigsArray = getPlaceholders($app->getContainer()->get('sessionsModel')->getStatus());
 
     return $this->view->render($response, 'register_results.html.twig', $twigsArray, $register_success);
 })->setName('Authorising Registration');
-
-public function getPlaceholders($app)
-{
-    $session = $app->getContainer()->get('sessionsModel');
-    return $session->getStatus();
-}
