@@ -24,11 +24,11 @@ class Validator
         $cleaned_pass = $this->sanitiseString($tainted_parameters['password']);
 
         //filter username for invalid chars
-        if (!preg_match('![()}{/#<>,[\]\\,\'|\x22]+!', $cleaned_user))
+        if (preg_match('![()}{/#<>,[\]\\,\'|\x22]+!', $cleaned_user)===1) //If same as 1 then illegal char found.
         {
             $cleaned_user = false;
         }
-        return [$cleaned_user, $cleaned_pass];
+        return [$cleaned_user, $cleaned_pass]; //No index name given, so index are 0 and 1 when used externally to this class.
     }
 
     //basic sanitiser, for user input and soap recieves
