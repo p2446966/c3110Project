@@ -7,9 +7,9 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 /// login ///
-$app->get('/Login', function(Request $request, Response $response) use ($app) {
+$app->get('/login', function(Request $request, Response $response) use ($app) {
     session_start();
-    $twigsArray = getPlaceholders($app->getContainer()->get('sessionsModel')->getStatus());
+    $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
     return $this->view->render($response, 'login.html.twig', $twigsArray);
 })->setName('Login');
 
@@ -40,7 +40,7 @@ $app->post('/auth-login', function (Request $request, Response $response) use ($
         $log->info('Login Attempt: ' . $login_params['username']);
     }
 
-    $twigsArray = getPlaceholders($app->getContainer()->get('sessionsModel')->getStatus());
+    $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
     return $this->view->render($response, 'login_results.html.twig', $twigsArray, $login_success);
 
