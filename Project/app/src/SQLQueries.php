@@ -69,7 +69,9 @@ class SQLQueries extends DatabaseWrapper
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("isss", $id, $username, $email, $password);
         //could use a do while in case generated id is taken
-        //although i think sql has an autogenerate primary key anyway..... Note from Callum: it has UUID() but in testing it always generated the same. will try again.
+        //although i think sql has an autogenerate primary key anyway.....
+        // Note from Callum: it has UUID() but in testing it always generated the same.
+        // will try again once things are more stable.
         $stmt->execute();
 
         //keeping errors
