@@ -12,7 +12,7 @@ namespace Telemetry;
 class SQLQueries extends DatabaseWrapper
 {
 
-    private $getUser = "SELECT * FROM users WHERE username=";
+    private $getUser = "SELECT * FROM users WHERE username=?";
     private $addUser = "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)";
 
     public function __construct() {}
