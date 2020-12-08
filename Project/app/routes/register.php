@@ -19,7 +19,7 @@ $app->post('/auth-register', function (Request $request, Response $response) use
     session_start();
 
     $log = new Logger('logger');
-    $log->pushHandler(new StreamHandler(REGISTER_LOG, Logger:INFO));
+    $log->pushHandler(new StreamHandler(REGISTER_LOG, Logger::INFO));
 
     $params = $request->getParsedBody();
 
