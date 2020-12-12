@@ -10,5 +10,5 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
     return $this->view->render($response,
-        'homepage.html.twig', $twigsArray);
+        'soap.html.twig', $twigsArray);
 });
