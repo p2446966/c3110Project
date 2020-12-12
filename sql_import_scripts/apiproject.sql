@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `users` (
   `id` bigint(16) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `phone` bigint(10) UNSIGNED DEFAULT NULL COMMENT 'replaced email.',
   `password` varchar(512) NOT NULL,
   `join_date` datetime DEFAULT current_timestamp(),
   `last_login_date` datetime DEFAULT current_timestamp()
@@ -44,7 +44,7 @@ CREATE TABLE `users` (
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `phone` (`phone`) USING BTREE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
