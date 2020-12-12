@@ -28,12 +28,13 @@ $app->post('/auth-register', function (Request $request, Response $response) use
 
     $database = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
-    $register_success = $database->registerQuery($db_login['database_settings'], $cleaned_params[0], $cleaned_params[1], $params['email']); // bypassed valid email for no
+    $register_success = $database->registerQuery($db_login['database_settings'], $cleaned_params[0], $cleaned_params[1], $params['phone']);
 
     if ($register_success === true)
     {
         $_SESSION['Logged_in'] = true;
         $log->info('Register success: ' . $cleaned_params[0]);
+        $register_success = "Register Success. Logged in.";
     }
     else
     {
@@ -41,6 +42,8 @@ $app->post('/auth-register', function (Request $request, Response $response) use
         $log->info('Register Failure: ' . $cleaned_params[0]);
     }
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
+
+    $twigsArray['register_success'] = $register_success;
 
     return $this->view->render($response, 'register_results.html.twig', $twigsArray, $register_success);
 })->setName('Authorising Registration');

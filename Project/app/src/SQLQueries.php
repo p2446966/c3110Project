@@ -13,7 +13,7 @@ class SQLQueries extends DatabaseWrapper
 {
 
     private $getUser = "SELECT * FROM users WHERE username=?";
-    private $addUser = "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)";
+    private $addUser = "INSERT INTO users (id, username, phone, password) VALUES (?, ?, ?, ?)";
 
     public function __construct() {}
     public function __destruct() {}
@@ -46,7 +46,7 @@ class SQLQueries extends DatabaseWrapper
             {
                 $_SESSION['UID'] = $results['id'];
                 $_SESSION['USERNAME'] = $username;
-                $_SESSION['email'] = $results['email'];
+                $_SESSION['phone'] = $results['phone'];
                 $_SESSION['join_date'] = '';
                 $_SESSION['last_login_date'] = '';
                 $success = true;
@@ -59,7 +59,7 @@ class SQLQueries extends DatabaseWrapper
         return $success;
     }
 
-    public function registerQuery($db_details, $username, $password, $email)
+    public function registerQuery($db_details, $username, $password, $phone)
     {
         $result = false;
         $this->establishConn($db_details);
@@ -67,7 +67,7 @@ class SQLQueries extends DatabaseWrapper
         $query = $this->addUser;
 
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("isss", $id, $username, $email, $password);
+        $stmt->bind_param("isis", $id, $username, $phone, $password);
         //could use a do while in case generated id is taken
         //although i think sql has an autogenerate primary key anyway.....
         // Note from Callum: it has UUID() but in testing it always generated the same.
@@ -88,7 +88,7 @@ class SQLQueries extends DatabaseWrapper
             {
                 $_SESSION['UID'] = $id;
                 $_SESSION['USERNAME'] = $username;
-                $_SESSION['email'] = $email;
+                $_SESSION['phone'] = $phone;
                 $_SESSION['join_date'] = '';
                 $_SESSION['last_login_date'] = '';
                 $result = true;

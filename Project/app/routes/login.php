@@ -43,6 +43,12 @@ $app->post('/auth-login', function (Request $request, Response $response) use ($
 
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
-    return $this->view->render($response, 'login_results.html.twig', $twigsArray, $login_success);
+    if ($login_success)
+    {
+        $twigsArray['login_success'] = "Success. Logged in.";
+    } else {
+        $twigsArray['login_success'] = "Username or password incorrect.";
+    }
 
+    return $this->view->render($response, 'login_results.html.twig', $twigsArray);
 })->setName('Authorising Login');
