@@ -1,0 +1,37 @@
+{% extends 'header.html.twig' %}
+{% block title %}NexHub{% endblock %}
+{% block content %}
+    {% include 'background.html.twig' %} <!---->
+    {% include 'navbar.html.twig' %}
+    <div class="page-container">
+        <h2 class="slide" id="welcome-header">Welcome!</h2>
+
+        <div id="table-container">
+            <table style="width:100%">
+                <thead>
+                <tr>
+                    <th class="sticky-col first-col">Download Name</th>
+                    <th class="sticky-col second-col">Download ID</th>
+                    <th class="sticky-col third-col">File Name</th>
+                    <th class="sticky-col">Sharers</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in downloadsresults %}
+                    <tr>
+                        <td>{{ row.downloadName }}</td>
+                        <td><a href="/downloads/{{ row.downloadID }}">{{ row.downloadID }}</a></td>
+                        <td>{{ row.fileName }}</td>
+                        {% if row.visibility == false and row.visibility is defined %}<td>All (Public)</td> {% else %}<td>{{ row.allowedUsers }}{% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $("#welcome-header").click(function(){ <!-- use to hide elemement-->
+            $("#welcome-header").fadeOut(1000);
+        });
+    </script>
+{% endblock %}
