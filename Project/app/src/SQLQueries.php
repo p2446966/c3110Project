@@ -14,7 +14,9 @@ class SQLQueries extends DatabaseWrapper
 
     private $getUser = "SELECT * FROM users WHERE username=?";
     private $addUser = "INSERT INTO users (id, username, phone, password) VALUES (?, ?, ?, ?)";
-
+    private $addTelemetry = "INSERT INTO telemetry (source, dest, recv_time, switch, fan, heater, keypad)
+VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
     public function __construct() {}
     public function __destruct() {}
 
@@ -107,5 +109,32 @@ class SQLQueries extends DatabaseWrapper
         }
         return $result;
     }
+    
+    //uses the message as array created by xmlparser, not object
+    public function storeTelemetry($db_details, $message)
+    {
+        $result = false;
+        $this->establishConn($db_details);
+        $query = $this->addTelemetry;
+        
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sssssss",
+            $message['sourcemsisdn'],
+            $message['destinationmsisdn'],
+            $message['recievedtime'],
+            $message['switch'],
+            $message['fan'],
+            $message['heater'],
+            $message['keypad']);
+        
+        if (!$stmt) { return $result; }
+        
+        //could check for errors but im not sure what errors would come from this
+        
+        $stmt->execute();
+        $stmt->free_result();
+        $stmt->close();
+        $this->disconnectConn();
+        return true;
 
 }
