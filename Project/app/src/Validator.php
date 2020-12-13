@@ -61,15 +61,25 @@ class Validator
         {
             return false;
         }
-        if (!is_int($tainted_telemetry->message->heater))
+        try {
+            $int_test1 = (int)$tainted_telemetry->message->heater;
+            $int_test2 = (int)$tainted_telemetry->message->keypad;
+            
+            if (($int_test1 == $tainted_telemetry->message->heater) != 1)
+            {
+                return false;
+            }
+            if (($int_test2 == $tainted_telemetry->message->keypad) != 1)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        catch (\Exception $e)
         {
             return false;
         }
-        if (!is_int($tainted_telemetry->message->keypad))
-        {
-            return false;
-        }
-        return true;
     }
 
     public function testExistence()
