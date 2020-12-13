@@ -42,6 +42,20 @@ class XMLParser
         }
     }
     
+    public function convertToArray($XMLObject)
+    {
+        $returned_array = [
+            "sourcemsisdn" => $XMLObject->sourcemsisdn,
+            "destinationmsisdn" => $XMLObject->destinationmsisdn,
+            "recievedtime" => $XMLObject->recievedtime,
+            "switch" => $XMLObject->message->switch,
+            "fan" => $XMLObject->message->fan,
+            "heater" => $XMLObject->message->heater,
+            "keypad" => $XMLObject->message->keypad
+        ];
+        return $returned_array;
+    }
+    
     /**
     * XML format
     * <sourcemsisdn> number message was sent from
@@ -65,11 +79,12 @@ class XMLParser
                 // TODO : implement check for user phone number in database
                 // TODO : also add phone number to database
                 //at the moment only messages sent from EE server to EE server can be recieved
-                if ($breakdown->sourcemsisdn == '447817814149')
+                if ($breakdown->message->group == 'TCR')
                 {
-                    if ($breakdown->message->group == 'TCR')
+                    if ($breakdown->sourcemsisdn == '447817814149' or $breakdown->sourcemsisdn == $_SESSION['phone'])
                     {
-                        array_push($this->processed_data, $breakdown);
+                        $array_form = $this->convertToArray($breakdown);
+                        array_push($this->processed_data, $array_form);
                     }
                 }
             }
