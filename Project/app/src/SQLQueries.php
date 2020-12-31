@@ -16,6 +16,7 @@ class SQLQueries extends DatabaseWrapper
     private $addUser = "INSERT INTO users (id, username, phone, password) VALUES (?, ?, ?, ?)";
     private $addTelemetry = "INSERT INTO telemetry (source, dest, recv_time, switch, fan, heater, keypad)
 VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private $getTelemetry = "SELECT * FROM telemetry WHERE source=?";
 
     public function __construct() {}
     public function __destruct() {}
@@ -136,6 +137,34 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt->close();
         $this->disconnectConn();
         return true;
-
+    }
+    
+    public function retrieveTelemetry($db_details)
+    {
+        $result = false;
+        $this->establishConn($db_details);
+        
+        $stmt = $this->database->prepare($this->getTelemetry);
+        $stmt->bind_param("s", $_SESSION['phone']);
+        
+        if (!$stmt) { return $result; }
+        
+        $stmt->execute();
+        $returned = $stmt->get_result();
+        $num_of_rows = $result->num_rows;
+        
+        if ($num_of_rows > 0)
+        {
+            $result = [];
+            while ($row = $returned->fetch_assoc())
+            {
+                array_push($result, $row);
+            }
+        }
+        
+        $stmt->free_result();
+        $stmt->close();
+        $stmt->disconnectConn();
+        return $result;
     }
 }
