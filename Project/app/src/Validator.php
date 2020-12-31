@@ -50,26 +50,26 @@ class Validator
     // keypad : integer
     public function validateTelemetry($tainted_telemetry)
     {
-        foreach ($tainted_telemetry->message->switch as $char)
+        foreach ($tainted_telemetry['switch'] as $char)
         {
             if ($char != "0" or $char != "1")
             {
                 return false;
             }
         }
-        if ($tainted_telemetry->message->fan != "forward" or $tainted_telemetry->message->fan != "reverse")
+        if ($tainted_telemetry['fan'] != "forward" or $tainted_telemetry['fan'] != "reverse")
         {
             return false;
         }
         try {
-            $int_test1 = (int)$tainted_telemetry->message->heater;
-            $int_test2 = (int)$tainted_telemetry->message->keypad;
+            $int_test1 = (int)$tainted_telemetry['heater'];
+            $int_test2 = (int)$tainted_telemetry['keypad'];
             
-            if (($int_test1 == $tainted_telemetry->message->heater) != 1)
+            if (($int_test1 == $tainted_telemetry['heater']) != 1)
             {
                 return false;
             }
-            if (($int_test2 == $tainted_telemetry->message->keypad) != 1)
+            if (($int_test2 == $tainted_telemetry['keypad']) != 1)
             {
                 return false;
             }
