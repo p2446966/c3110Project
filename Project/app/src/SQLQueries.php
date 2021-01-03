@@ -164,7 +164,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         $stmt->free_result();
         $stmt->close();
-        $stmt->disconnectConn();
+        $this->disconnectConn();
         return $result;
     }
 }
