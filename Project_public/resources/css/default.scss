@@ -151,7 +151,7 @@ nav a:hover {
 nav a.navbar-login {
   margin-left: auto;
   padding-right: 10px;
-  min-width: 70px;
+  min-width: 120px;
   text-align-last: justify;
 }
 
@@ -322,6 +322,10 @@ div.blur-box {
 #download-container {
   overflow-y: scroll;
   height: 200px;
+}
+
+#table-container {
+  padding-top: 100px;
 }
 
 table  td {
