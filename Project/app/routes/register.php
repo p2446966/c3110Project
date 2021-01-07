@@ -22,9 +22,11 @@ $app->post('/auth-register', function (Request $request, Response $response) use
     $log->pushHandler(new StreamHandler(REGISTER_LOG, Logger::INFO));
 
     $params = $request->getParsedBody();
+    $register_params['username'] = $params['username'];
+    $register_params['password'] = password_hash($params['password'], PASSWORD_DEFAULT);
 
     $validator = $app->getContainer()->get('validator');
-    $cleaned_params = $validator->validateInput($params);
+    $cleaned_params = $validator->validateInput($register_params);
 
     $database = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
