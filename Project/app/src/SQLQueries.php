@@ -75,6 +75,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
         //although i think sql has an autogenerate primary key anyway.....
         // Note from Callum: it has UUID() but in testing it always generated the same.
         // will try again once things are more stable.
+        // note 2: still generated same results sorry. might be a length constraint of
+        // the output :(
         $stmt->execute();
 
         //keeping errors
@@ -92,7 +94,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
                 $_SESSION['UID'] = $id;
                 $_SESSION['USERNAME'] = $username;
                 $_SESSION['phone'] = $phone;
-                $_SESSION['join_date'] = '';
+                $_SESSION['join_date'] = ''; // callum's note: this used to be php current join date, which would be the same from db. why not now? :)
                 $_SESSION['last_login_date'] = '';
                 $result = true;
                 break;

@@ -7,7 +7,7 @@
     <div class="login">
         <h1>Register</h1>
         <div class="login-char-warning"><p>Illegal Chars: ( ) } { @ # / < > , [ ] \ , ' | "</p></div>
-        <form action="auth-register" method="post">
+        <form>
             <label for="username">
                 <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/person-outline.svg"/>
             </label>
@@ -32,6 +32,7 @@
         </form>
     </div>
     <script>
+        //Password confirmation validations
         var password = document.getElementById("password"), confirm_password = document.getElementById("password-confirm");
 
         function validatePassword(){
@@ -44,5 +45,30 @@
 
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
+
+        //AJAX
+        $('form').on('submit', function (e) {
+            e.preventDefault(); // Prevents default actions like refreshing.
+
+            $.ajax({
+                type: "POST",
+                url: '/auth-register',
+                data: $("form").serialize(),
+                success: function (result) {
+                    xml = eval(result);
+                    success = ($(xml).find('success').text() === 'true');
+
+                    if (success) {
+                        console.log(success);
+                        alert("Register success, redirecting to homepage.");
+                        window.location.replace("/");
+                    } else {
+                        console.log(success);
+                        alert($(xml).find('message').text());
+                    }
+                }
+            });
+
+        })
     </script>
 {% endblock %}

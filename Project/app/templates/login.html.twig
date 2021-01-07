@@ -6,7 +6,7 @@
     {% include 'navbar.html.twig' %}
     <div class="login">
         <h1>Login</h1>
-        <form action="auth-login" method="post">
+        <form>
             <label for="username">
                 <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/person-outline.svg"/>
             </label>
@@ -18,4 +18,29 @@
             <input type="submit" value="Login">
         </form>
     </div>
+    <script>
+        $('form').on('submit', function (e) {
+            e.preventDefault(); // Prevents default actions like refreshing.
+
+            $.ajax({
+                type: "POST",
+                url: '/auth-login',
+                data: $("form").serialize(),
+                success: function (result) {
+                    xml = eval(result);
+                    success = ($(xml).find('success').text() === 'true');
+
+                    if (success) {
+                        console.log(success);
+                        alert("Login success, redirecting to homepage.");
+                        window.location.replace("/");
+                    } else {
+                        console.log(success);
+                        alert($(xml).find('message').text());
+                    }
+                }
+            });
+
+        })
+    </script>
 {% endblock %}

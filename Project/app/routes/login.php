@@ -11,7 +11,7 @@ $app->get('/login', function(Request $request, Response $response) use ($app) {
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
     return $this->view->render($response, 'login.html.twig', $twigsArray);
-})->setName('Login');
+});
 
 /// auth-login ///
 $app->post('/auth-login', function (Request $request, Response $response) use ($app) {
@@ -30,25 +30,29 @@ $app->post('/auth-login', function (Request $request, Response $response) use ($
 
     $login_success = $database->loginQuery($db_login['database_settings'], $login_params[0], $login_params[1]);
 
+    //return generation
+    $return = new SimpleXMLElement('<xml/>');
+    $login_results = $return->addChild('login_results');
+
     if ($login_success == true)
     {
         $_SESSION['Logged_in'] = true;
         $log->info('Login Success: ' . $login_params[0]);
+
+        $login_results->addChild('success', "true");
+        $login_results->addChild('message', "User successfully logged in.");
     }
-    else
-    {
+    else {
         $_SESSION['Logged_in'] = false;
         $log->info('Login Attempt: ' . $login_params[0]);
+
+        $login_results->addChild('success', "false");
+        $login_results->addChild('message', "Incorrect username or password.");
     }
 
-    $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
+    //return preperation
+    header("Content-Type:text/xml");
 
-    if ($login_success)
-    {
-        $twigsArray['login_success'] = "Success. Logged in.";
-    } else {
-        $twigsArray['login_success'] = "Username or password incorrect.";
-    }
-
-    return $this->view->render($response, 'login_results.html.twig', $twigsArray);
-})->setName('Authorising Login');
+    print($return->asXML());
+    exit;
+});

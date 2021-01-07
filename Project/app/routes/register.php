@@ -32,20 +32,31 @@ $app->post('/auth-register', function (Request $request, Response $response) use
     $db_login = $app->getContainer()->get('settings');
     $register_success = $database->registerQuery($db_login['database_settings'], $cleaned_params[0], $cleaned_params[1], $params['phone']);
 
+    //return generation
+    $return = new SimpleXMLElement('<xml/>');
+    $register_results = $return->addChild('register_results');
+
     if ($register_success === true)
     {
         $_SESSION['Logged_in'] = true;
         $log->info('Register success: ' . $cleaned_params[0]);
         $register_success = "Register Success. Logged in.";
+
+        $register_results->addChild('success', "true");
+        $register_results->addChild('message', "User details registered successfully and logged in.");
     }
     else
     {
         $_SESSION['Logged_in'] = false;
         $log->info('Register Failure: ' . $cleaned_params[0]);
+
+        $register_results->addChild('success', "false");
+        $register_results->addChild('message', $register_success);
     }
-    $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
-    $twigsArray['register_success'] = $register_success;
+    //return preperation
+    header("Content-Type:text/xml");
 
-    return $this->view->render($response, 'register_results.html.twig', $twigsArray, $register_success);
+    print($return->asXML());
+    exit;
 })->setName('Authorising Registration');
