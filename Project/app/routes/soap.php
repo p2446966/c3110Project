@@ -18,6 +18,11 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
 
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
+    if (!isset($_SESSION['Logged_in']) && !$_SESSION['Logged_in'])
+    {
+        return $this->response->withRedirect('/login#soap');
+    }
+
     //retrieve messages
     $soap = $app->getContainer()->get('soapWrapper');
     $soap_handle = $soap->createSoapClient();

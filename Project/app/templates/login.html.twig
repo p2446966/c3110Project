@@ -32,8 +32,16 @@
 
                     if (success) {
                         console.log(success);
-                        alert("Login success, redirecting to homepage.");
-                        window.location.replace("/");
+                        console.log(location.hash.substr(1))
+                        switch (location.hash.substr(1)) {
+                            case "soap":
+                                alert("Login success, redirecting you back to soap.");
+                                window.location.replace("/soap");
+                                break;
+                            default:
+                                alert("Login success, redirecting to homepage.");
+                                window.location.replace("/");
+                        }
                     } else {
                         console.log(success);
                         alert($(xml).find('message').text());
