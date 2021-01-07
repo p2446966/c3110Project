@@ -28,8 +28,6 @@ $app->post('/auth-register', function (Request $request, Response $response) use
     $validator = $app->getContainer()->get('validator');
     $cleaned_params = $validator->validateInput($register_params);
 
-    var_dump($cleaned_params, $register_params);
-
     $database = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
     $register_success = $database->registerQuery($db_login['database_settings'], $cleaned_params[0], $cleaned_params[1], $params['phone']);
