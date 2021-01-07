@@ -5,6 +5,8 @@
 define('APP_NAME', 'Project'); //this can be changed
 define('LANDING_PAGE', $_SERVER['SCRIPT_NAME']);
 
+//Monolog settings
+
 $log_file_path = __DIR__ . '/private_logs/';
 $log_file_login_name = 'auth-login.log';
 $log_file_login_register = 'auth-register.log';
@@ -12,8 +14,12 @@ $log_file_login_register = 'auth-register.log';
 define('LOGIN_LOG', $log_file_path . $log_file_login_name);
 define('REGISTER_LOG', $log_file_path . $log_file_login_register);
 
+//Soap settings
+
 $wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);
+define('SOAP_USER', '20_2446966');
+define('SOAP_PASS', 'Assemena1234');
 
 $error_codes = [
     '404' => 'Error 404 : Page not found',

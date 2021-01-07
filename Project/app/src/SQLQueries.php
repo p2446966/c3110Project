@@ -12,20 +12,30 @@ namespace Telemetry;
 class SQLQueries extends DatabaseWrapper
 {
 
-    private $getUser = "SELECT * FROM users WHERE username=";
-    private $addUser = "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)";
+    private $getUser = "SELECT * FROM users WHERE username=?";
+    private $addUser = "INSERT INTO users (id, username, phone, password) VALUES (?, ?, ?, ?)";
+    private $addTelemetry = "INSERT INTO telemetry (source, dest, recv_time, switch, fan, heater, keypad)
+VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private $getTelemetry = "SELECT * FROM telemetry WHERE source=?";
 
     public function __construct() {}
     public function __destruct() {}
 
-    public function loginQuery($username, $password)
+    public function loginQuery($db_details, $username, $password)
     {
         $success = false;
-        $query = $this->getUser . $username;
-        $stmt = $this->database->prepare($query);
+        $this->establishConn($db_details); //establish database connection using parent class
+
+        $stmt = $this->database->prepare($this->getUser);
+        $stmt->bind_param("s", $username);
+
+        if (!$stmt) { //Return false if prepare failed.
+            return $success;
+        }
 
         $stmt->execute();
         $result = $stmt->get_result();
+
         $num_of_rows = $result->num_rows;
 
         if ($num_of_rows > 0)
@@ -39,7 +49,7 @@ class SQLQueries extends DatabaseWrapper
             {
                 $_SESSION['UID'] = $results['id'];
                 $_SESSION['USERNAME'] = $username;
-                $_SESSION['email'] = $results['email'];
+                $_SESSION['phone'] = $results['phone'];
                 $_SESSION['join_date'] = '';
                 $_SESSION['last_login_date'] = '';
                 $success = true;
@@ -48,20 +58,23 @@ class SQLQueries extends DatabaseWrapper
 
         $stmt->free_result();
         $stmt->close();
+        $this->disconnectConn();
         return $success;
     }
 
-    public function registerQuery($username, $password, $email)
+    public function registerQuery($db_details, $username, $password, $phone)
     {
         $result = false;
-
+        $this->establishConn($db_details);
         $id = hexdec(uniqid());
         $query = $this->addUser;
 
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("isss", $id, $username, $email, $password);
+        $stmt->bind_param("isis", $id, $username, $phone, $password);
         //could use a do while in case generated id is taken
-        //although i think sql has an autogenerate primary key anyway
+        //although i think sql has an autogenerate primary key anyway.....
+        // Note from Callum: it has UUID() but in testing it always generated the same.
+        // will try again once things are more stable.
         $stmt->execute();
 
         //keeping errors
@@ -70,6 +83,7 @@ class SQLQueries extends DatabaseWrapper
 
         $stmt->free_result();
         $stmt->close();
+        $this->disconnectConn();
 
         switch ($sqlerrorno)
         {
@@ -77,7 +91,7 @@ class SQLQueries extends DatabaseWrapper
             {
                 $_SESSION['UID'] = $id;
                 $_SESSION['USERNAME'] = $username;
-                $_SESSION['email'] = $email;
+                $_SESSION['phone'] = $phone;
                 $_SESSION['join_date'] = '';
                 $_SESSION['last_login_date'] = '';
                 $result = true;
@@ -97,4 +111,60 @@ class SQLQueries extends DatabaseWrapper
         return $result;
     }
 
+    //uses the message as array created by xmlparser, not object
+    public function storeTelemetry($db_details, $message)
+    {
+        $result = false;
+        $this->establishConn($db_details);
+        $query = $this->addTelemetry;
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sssssss",
+            $message['sourcemsisdn'],
+            $message['destinationmsisdn'],
+            $message['recievedtime'],
+            $message['switch'],
+            $message['fan'],
+            $message['heater'],
+            $message['keypad']);
+
+        if (!$stmt) { return $result; }
+
+        //could check for errors but im not sure what errors would come from this
+
+        $stmt->execute();
+        $stmt->free_result();
+        $stmt->close();
+        $this->disconnectConn();
+        return true;
+    }
+    
+    public function retrieveTelemetry($db_details)
+    {
+        $result = false;
+        $this->establishConn($db_details);
+        
+        $stmt = $this->database->prepare($this->getTelemetry);
+        $stmt->bind_param("s", $_SESSION['phone']);
+        
+        if (!$stmt) { return $result; }
+        
+        $stmt->execute();
+        $returned = $stmt->get_result();
+        $num_of_rows = $result->num_rows;
+        
+        if ($num_of_rows > 0)
+        {
+            $result = [];
+            while ($row = $returned->fetch_assoc())
+            {
+                array_push($result, $row);
+            }
+        }
+        
+        $stmt->free_result();
+        $stmt->close();
+        $this->disconnectConn();
+        return $result;
+    }
 }

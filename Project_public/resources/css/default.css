@@ -1,13 +1,11 @@
 @font-face {
-    font-family: 'Bebas Neue';
-    src: url(../fonts/bebasneue/BebasNeue-Regular.eot);
-    src: url(../fonts/bebasneue/BebasNeue-Regular.eot?#iefix) format('embedded-opentype'),
-    url(../fonts/bebasneue/BebasNeue-Regular.woff) format('woff'),
-    url(../fonts/bebasneue/BebasNeue-Regular.ttf) format('truetype');
+    font-family: 'Bebas Neue', cursive;
+    src: url(https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap);
 
     font-weight: normal;
     font-style: normal;
 }
+
 body {
     margin:0px;
 }

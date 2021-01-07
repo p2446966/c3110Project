@@ -15,10 +15,10 @@ class SoapWrapper
 
     public function createSoapClient()
     {
-        $wdsl = WDSL;
+        $wsdl = WSDL;
         try
         {
-            $soap_client_handle = new \SoapClient($wdsl, ['trace' => true, 'exceptions' => true]);
+            $soap_client_handle = new \SoapClient($wsdl, ['trace' => true, 'exceptions' => true]);
 
         }
         catch (\SoapFault $exception)

@@ -24,11 +24,11 @@ class Validator
         $cleaned_pass = $this->sanitiseString($tainted_parameters['password']);
 
         //filter username for invalid chars
-        if (!preg_match('![()}{/#<>,[\]\\,\'|\x22]+!', $cleaned_user))
+        if (preg_match('![()}{/#<>,[\]\\,\'|\x22]+!', $cleaned_user)===1) //If same as 1 then illegal char found.
         {
             $cleaned_user = false;
         }
-        return [$cleaned_user, $cleaned_pass];
+        return [$cleaned_user, $cleaned_pass]; //No index name given, so index are 0 and 1 when used externally to this class.
     }
 
     //basic sanitiser, for user input and soap recieves
@@ -41,6 +41,45 @@ class Validator
             return $sanitised_string;
         }
         return $cleaned_string;
+    }
+
+    //filters, sanitises and returns telemetry
+    // switch : 4 digit 1 or 0
+    // fan : 'forward' or 'reverse'
+    // heater : integer
+    // keypad : integer
+    public function validateTelemetry($tainted_telemetry)
+    {
+        foreach ($tainted_telemetry['switch'] as $char)
+        {
+            if ($char != "0" or $char != "1")
+            {
+                return false;
+            }
+        }
+        if ($tainted_telemetry['fan'] != "forward" or $tainted_telemetry['fan'] != "reverse")
+        {
+            return false;
+        }
+        try {
+            $int_test1 = (int)$tainted_telemetry['heater'];
+            $int_test2 = (int)$tainted_telemetry['keypad'];
+            
+            if (($int_test1 == $tainted_telemetry['heater']) != 1)
+            {
+                return false;
+            }
+            if (($int_test2 == $tainted_telemetry['keypad']) != 1)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        catch (\Exception $e)
+        {
+            return false;
+        }
     }
 
     public function testExistence()
