@@ -176,7 +176,7 @@ WHERE username=? AND password != NULL ";// Change password to "unbanned" for use
     public function allUsersQuery($db_details) //All users except Administrators account.
     {
         $success = false;
-        $this->establishConn($db_details); //establish database connection using parent class
+        $this->establishConn($db_details);
 
         $stmt = $this->database->prepare($this->getUsers);
 
@@ -202,9 +202,9 @@ WHERE username=? AND password != NULL ";// Change password to "unbanned" for use
         return $success;
     }
 
-    public function banUserQuery($db_details, $username) //All users except Administrators account.
+    public function banUserQuery($db_details, $username)
     {
-        $this->establishConn($db_details); //establish database connection using parent class
+        $this->establishConn($db_details);
 
         $stmt = $this->database->prepare($this->banUser);
         $stmt->bind_param("s", $username);
@@ -219,9 +219,9 @@ WHERE username=? AND password != NULL ";// Change password to "unbanned" for use
         return false;
     }
 
-    public function unbanUserQuery($db_details, $username) //All users except Administrators account.
+    public function unbanUserQuery($db_details, $username)
     {
-        $this->establishConn($db_details); //establish database connection using parent class
+        $this->establishConn($db_details);
 
         $stmt = $this->database->prepare($this->unbanUser);
         $stmt->bind_param("s", $username);
