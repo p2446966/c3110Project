@@ -11,12 +11,15 @@ namespace Telemetry;
 
 class SQLQueries extends DatabaseWrapper
 {
-
     private $getUser = "SELECT * FROM users WHERE username=?";
     private $addUser = "INSERT INTO users (id, username, phone, password) VALUES (?, ?, ?, ?)";
     private $addTelemetry = "INSERT INTO telemetry (source, dest, recv_time, switch, fan, heater, keypad)
 VALUES (?, ?, ?, ?, ?, ?, ?)";
     private $getTelemetry = "SELECT * FROM telemetry WHERE source=?";
+    private $getUsers = "SELECT * FROM users WHERE username != 'Administrator'";
+    private $banUser = "UPDATE users SET password = NULL WHERE username=?";
+    private $unbanUser = "UPDATE users SET password = '$2y$10$.e7xRE9kVyOa9Xc/7v4Z1OgfaqQlB7zMSeycbycSXZuKKRP4ik7Ee' 
+WHERE username=? AND password != NULL ";// Change password to "unbanned" for username ? only if banned.
 
     public function __construct() {}
     public function __destruct() {}
@@ -148,7 +151,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->database->prepare($this->getTelemetry);
         $stmt->bind_param("s", $_SESSION['phone']);
-        
+
         if (!$stmt) { return $result; }
         
         $stmt->execute();
@@ -168,5 +171,68 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt->close();
         $this->disconnectConn();
         return $result;
+    }
+
+    public function allUsersQuery($db_details) //All users except Administrators account.
+    {
+        $success = false;
+        $this->establishConn($db_details); //establish database connection using parent class
+
+        $stmt = $this->database->prepare($this->getUsers);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $num_of_rows = $result->num_rows;
+
+        if ($num_of_rows > 0)
+        {
+            $results = array();
+            while($row = $result->fetch_assoc())
+            {
+                $results[] = $row;
+            }
+
+            return $results;
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+        $this->disconnectConn();
+        return $success;
+    }
+
+    public function banUserQuery($db_details, $username) //All users except Administrators account.
+    {
+        $this->establishConn($db_details); //establish database connection using parent class
+
+        $stmt = $this->database->prepare($this->banUser);
+        $stmt->bind_param("s", $username);
+
+        $stmt->execute();
+
+        if($stmt->affected_rows() > 0){return true;}
+
+        $stmt->free_result();
+        $stmt->close();
+        $this->disconnectConn();
+        return false;
+    }
+
+    public function unbanUserQuery($db_details, $username) //All users except Administrators account.
+    {
+        $this->establishConn($db_details); //establish database connection using parent class
+
+        $stmt = $this->database->prepare($this->unbanUser);
+        $stmt->bind_param("s", $username);
+
+        $stmt->execute();
+
+        if($stmt->affected_rows() > 0){return true;}
+
+        $stmt->free_result();
+        $stmt->close();
+        $this->disconnectConn();
+        return false;
     }
 }
