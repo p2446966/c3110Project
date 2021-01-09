@@ -10,9 +10,13 @@ define('LANDING_PAGE', $_SERVER['SCRIPT_NAME']);
 $log_file_path = __DIR__ . '/private_logs/';
 $log_file_login_name = 'auth-login.log';
 $log_file_login_register = 'auth-register.log';
+$log_file_messages = 'auth-message.log';
+$log_file_admin = 'auth-admin.log';
 
 define('LOGIN_LOG', $log_file_path . $log_file_login_name);
 define('REGISTER_LOG', $log_file_path . $log_file_login_register);
+define('MESSAGE_LOG', $log_file_path . $log_file_messages);
+define('ADMIN_LOG', $log_file_path . $log_file_admin);
 
 //Soap settings
 
