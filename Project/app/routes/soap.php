@@ -52,5 +52,13 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
     $user_messages = $sql->retrieveTelemetry($db_login['database_settings']);
     
     return $this->view->render($response,
-        'soap.html.twig', $twigsArray);
+        'soap.html.twig',
+        [
+            'username' => $twigsArray[0],
+            'loginFirstLink' => $twigsArray[1],
+            'loginFirstText' => $twigsArray[2],
+            'loginSecondLink' => $twigsArray[3],
+            'loginSecondText' => $twigsArray[4],
+            'downloadsresults' => $user_messages
+        ]);
 });
