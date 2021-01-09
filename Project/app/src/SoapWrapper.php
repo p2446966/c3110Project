@@ -61,6 +61,7 @@ class SoapWrapper
                         "SMS"
                     ]
                 );
+                $call_result = true;
             }
             catch (\SoapFault $exception)
             {
