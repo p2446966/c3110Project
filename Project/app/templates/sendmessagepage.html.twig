@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+<div class="sendmessage">
+    <h1>Send Message</h1>
+    <form>
+        <label for="destination">
+            <input type="text" name="destination" placeholder="Destination"
+                   id="destinatiion">
+        </label>
+        <label for="message">
+            <input type="text" name="message" placeholder="Message" id="message"
+                   width="500" height="500">
+        </label>
+        <input type="submit" value="Send">
+    </form>
+</div>
+<script>
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: '/auth-send',
+            data: $('form').serialize()
+        });
+    })
+</script>
+</body>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head></head>
+<body>
+<div id="user-container">
+    <table style="width:100%">
+        <thead>
+        <tr>
+            <th class="sticky-col first-col">ID</th>
+            <th class="sticky-col second-col">Username</th>
+            <th class="sticky-col third-col">Phone Number</th>
+            <th class="sticky-col fourth-col">Password</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in userresults %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.username }}</td>
+            <td>{{ row.phone }}</td>
+            <td>{{ row.password }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+<div id="user-function">
+    <form>
+        <label for="User">
+            <input type="text" name="username" id="username" placeholder="Username">
+            <input type="submit" value="Ban">
+            <input type="submit" value="Unban">
+        </label>
+    </form>
+</div>
+</body>
