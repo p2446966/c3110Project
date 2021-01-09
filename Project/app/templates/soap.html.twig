@@ -13,7 +13,10 @@
                     <th class="sticky-col first-col">Recipient</th>
                     <th class="sticky-col second-col">Receiver</th>
                     <th class="sticky-col third-col">Delivery Time</th>
-                    <th class="sticky-col">Message</th>
+                    <th class="sticky-col fourth-col">Switch</th>
+                    <th class="sticky-col fifth-col">Fan</th>
+                    <th class="sticky-col sixth-col">Heater</th>
+                    <th class="sticky-col seventh-col">Keypad</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,7 +25,10 @@
                         <td>{{ row.sourcemsisdn }}</td>
                         <td>{{ row.destinationmsisdn }}</td>
                         <td>{{ row.recievedtime }}</td>
-                        <td>{{ row.message }}</td>
+                        <td>{{ row.switch }}</td>
+                        <td>{{ row.fan }}</td>
+                        <td>{{ row.heater }}</td>
+                        <td>{{ row.keypad }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
