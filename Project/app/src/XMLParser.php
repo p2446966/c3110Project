@@ -47,7 +47,7 @@ class XMLParser
         $returned_array = [
             "sourcemsisdn" => $XMLObject->sourcemsisdn,
             "destinationmsisdn" => $XMLObject->destinationmsisdn,
-            "recievedtime" => $XMLObject->recievedtime,
+            "receivedtime" => $XMLObject->receivedtime,
             "switch" => $XMLObject->message->switch,
             "fan" => $XMLObject->message->fan,
             "heater" => $XMLObject->message->heater,
