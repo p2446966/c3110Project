@@ -86,6 +86,29 @@ class Validator
     {
         return "This class and method can be found";
     }
+    
+    public function validatePhoneNumber($tainted_number)
+    {
+        $result = false;
+        $cleaned_number = $this->sanitiseString($tainted_number);
+        if ($tainted_number == $cleaned_number)
+        {
+            if ($cleaned_number[0] == '+')
+            {
+                try {
+                    $int_test = (int)substr($cleaned_number, 1);
+                    if (($int_test == substr($cleaned_number, 1)) == 1)
+                    {
+                        $result = true;
+                    }
+                }
+                catch (\Exception $e)
+                {
+                    //ignore
+                }
+            }
+        }
+    }
 
 
 }
