@@ -36,7 +36,7 @@ $app->post('/refresh-users', function (Request $request, Response $response) use
     $sql = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
 
-    $users = $sql->allUsersQuery($db_login['database_settings']);                                           // NOT FINISHED SO DO NOT USE YET.
+    $users = $sql->allUsersQuery($db_login['database_settings']);                                           //ToDo NOT FINISHED SO DO NOT USE YET.
     if ($users == false)
     {
         $log->info('ERROR : Administrator could not retrieve any users');
