@@ -27,10 +27,11 @@ $app->post('/auth-register', function (Request $request, Response $response) use
 
     $validator = $app->getContainer()->get('validator');
     $cleaned_params = $validator->validateInput($register_params);
-
+    $cleaned_phone_param = $validator->validatePhoneNumber($params['phone']);
+    
     $database = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
-    $register_success = $database->registerQuery($db_login['database_settings'], $cleaned_params[0], $cleaned_params[1], $params['phone']);
+    $register_success = $database->registerQuery($db_login['database_settings'], $cleaned_params[0], $cleaned_params[1], $cleaned_phone_param);
 
     //return generation
     $return = new SimpleXMLElement('<xml/>');
