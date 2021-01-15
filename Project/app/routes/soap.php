@@ -60,7 +60,7 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
         {
             //check timestamp against current
             $current_time = str_replace([' ', '/', ':'], '', $clean_message['receivedtime']);
-            if ($current_time > $last_time)
+            if ($current_time > $last_timestamp)
             {
                 //send to database
                 $sql->storeTelemetry($db_login['database_settings'], $message);
