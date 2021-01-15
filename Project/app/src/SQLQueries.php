@@ -156,7 +156,7 @@ WHERE username=? AND password != NULL ";// Change password to "unbanned" for use
         
         $stmt->execute();
         $returned = $stmt->get_result();
-        $num_of_rows = $result->num_rows;
+        $num_of_rows = $returned->num_rows;
         
         if ($num_of_rows > 0)
         {
