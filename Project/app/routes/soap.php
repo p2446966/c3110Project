@@ -39,17 +39,36 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
     $validator = $app->getContainer()->get('validator');
     $db_login = $app->getContainer()->get('settings');
     
+    //retrieve stored messages
+    $stored_messages = $sql->retrieveTelemetry($db_login['database_settings']);
+    
+    //fetch latest timestamp
+    if (sizeof($stored_messages) > 0)
+    {
+        $latest_timestamp = $stored_messages[sizeof($stored_messages) - 1]['receivedtime'];
+        $last_timestamp = str_replace([' ', '/', ':'], '', $latest_timestamp);
+    }
+    else
+    {
+        $last_timestamp = 0;
+    }
+        
     foreach ($messages as $message)
     {
         $check_message = $validator->validateTelemetry($message);
         if ($check_message)
         {
-            $sql->storeTelemetry($db_login['database_settings'], $message);
+            //check timestamp against current
+            $current_time = str_replace([' ', '/', ':'], '', $clean_message['receivedtime']);
+            if ($current_time > $last_time)
+            {
+                //send to database
+                $sql->storeTelemetry($db_login['database_settings'], $message);
+                //add to current message list
+                array_push($stored_messages, $clean_messages);
+            }
         }
     }
-    
-    //retrieve user's messages from database
-    $user_messages = $sql->retrieveTelemetry($db_login['database_settings']);
     
     return $this->view->render($response,
         'soap.html.twig',
@@ -59,6 +78,6 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
             'loginFirstText' => $twigsArray['loginFirstText'],
             'loginSecondLink' => $twigsArray['loginSecondLink'],
             'loginSecondText' => $twigsArray['loginSecondText'],
-            'downloadsresults' => $user_messages
+            'downloadsresults' => $stored_messages
         ]);
 });
