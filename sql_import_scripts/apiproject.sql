@@ -59,6 +59,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `phone`, `password`, `join_date`, `last_login_date`) VALUES
 (0, 'Administrator', '+441234567890', '$2y$10$l5XpvlcPjk4wamJ2PHzM3.CX2CphAu5lGwgP7qzwzOdFgzsquHS7S', '2021-01-08 14:56:02', '2021-01-08 14:56:02');
 
+-- For this University project only. The password here is listed as "defaultpassword". Normally, keeping the password here would be a security threat. We understand this.
+
 --
 -- Indexes for dumped tables
 --

@@ -1,21 +1,25 @@
-<!DOCTYPE html>
-<head>
-</head>
-<body>
-<div class="sendmessage">
+{% extends 'header.html.twig' %}
+{% block extra_meta %}<link rel="stylesheet" href="/resources/css/form.css" type="text/css"/>{% endblock %}
+{% block title %}NexHub{% endblock %}
+{% block content %}
+    {% include 'background.html.twig' %}
+    {% include 'navbar.html.twig' %}
+<div class="form">
     <h1>Send Message</h1>
     <form>
         <label for="destination">
-            <input type="text" name="destination" placeholder="Destination"
-                   id="destinatiion">
+            <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/phone-outline.svg"/>
         </label>
+        <input type="text" name="destination" placeholder="Destination" id="destination">
         <label for="message">
-            <input type="text" name="message" placeholder="Message" id="message"
-                   width="500" height="500">
+            <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/message-square-outline.svg"/>
         </label>
+        <input type="text" name="message" placeholder="Message" id="message" width="500" height="500">
         <input type="submit" value="Send">
     </form>
 </div>
+
+
 <script>
     $('form').on('submit', function (e) {
         e.preventDefault();
@@ -26,4 +30,4 @@
         });
     })
 </script>
-</body>
+{% endblock %}

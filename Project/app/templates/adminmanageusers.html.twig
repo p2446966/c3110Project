@@ -1,6 +1,9 @@
-<!DOCTYPE html>
-<head></head>
-<body>
+{% extends 'header.html.twig' %}
+{% block extra_meta %}<link rel="stylesheet" href="/resources/css/form.css" type="text/css"/>{% endblock %}
+{% block title %}NexHub{% endblock %}
+{% block content %}
+    {% include 'background.html.twig' %}
+    {% include 'navbar.html.twig' %}
 <div id="user-container">
     <table style="width:100%">
         <thead>
@@ -33,4 +36,4 @@
         </label>
     </form>
 </div>
-</body>
+{% endblock %}

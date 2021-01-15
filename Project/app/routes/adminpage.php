@@ -13,11 +13,11 @@ $app->get('/manageusers', function (Request $request, Response $response) use ($
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
-    if (!isset($_SESSION['Logged_in']) && !$_SESSION['Logged_in'])
+    if (!isset($_SESSION['Logged_in']) || !$_SESSION['Logged_in'] || !isset($_SESSION['USERNAME'])) // If not logged in (including malformed ways) redirect to login page.
     {
-        if (!isset($_SESSION['USERNAME']) && !($_SESSION['USERNAME'] == 'Administrator')) {
-            return $this->response->withRedirect('/login');
-        }
+      return $this->response->withRedirect('/login');
+    } elseif ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
+        return $this->response->withRedirect('/error/403');
     }
 
     return $this->view->render($response, 'adminmanageusers.html.twig', $twigsArray);
@@ -28,6 +28,11 @@ $app->post('/refresh-users', function (Request $request, Response $response) use
 
     $log = new Logger('logger');
     $log->pushHandler(new StreamHandler(ADMIN_LOG, Logger::INFO));
+
+
+    if ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
+        return $this->response->withRedirect('/error/403');
+    }
 
     $sql = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
@@ -51,6 +56,10 @@ $app->post('/ban-user', function (Request $request, Response $response) use ($ap
 
     $log = new Logger('logger');
     $log->pushHandler(new StreamHandler(ADMIN_LOG, Logger::INFO));
+
+    if ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
+        return $this->response->withRedirect('/error/403');
+    }
 
     $params = $request->getParsedBody();
 
@@ -80,6 +89,10 @@ $app->post('/unban-user', function (Request $request, Response $response) use ($
 
    $log = new Logger('logger');
    $log->pushHandler(new StreamHandler(ADMIN_LOG, Logger::INFO));
+
+    if ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
+        return $this->response->withRedirect('/error/403');
+    }
 
    $params = $request->getParsedBody();
 

@@ -15,8 +15,8 @@ class SessionsModel
         {
             return  [
             'username' => $_SESSION['USERNAME'],
-            'loginFirstLink' => "#",
-            'loginFirstText' => "Placeholder",
+            'loginFirstLink' => "/manageusers",
+            'loginFirstText' => "Admin Panel",
             'loginSecondLink' => "/logout",
             'loginSecondText' => "Logout",
         ];

@@ -15,7 +15,7 @@ $app->get('/send', function(Request $request, Response $response) use ($app){
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
     if (!isset($_SESSION['Logged_in']) && !$_SESSION['Logged_in'])
     {
-        return $this->response->withRedirect('/login');
+        return $this->response->withRedirect('/login#send');
     }
     return $this->view->render($response, 'sendmessagepage.html.twig', $twigsArray);
 });

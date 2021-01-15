@@ -1,10 +1,10 @@
 {% extends 'header.html.twig' %}
-{% block extra_meta %}<link rel="stylesheet" href="/resources/css/login.css" type="text/css"/>{% endblock %}
+{% block extra_meta %}<link rel="stylesheet" href="/resources/css/form.css" type="text/css"/>{% endblock %}
 {% block title %}NexHub{% endblock %}
 {% block content %}
     {% include 'background.html.twig' %} <!--Must be before other content (Otherwise white spaced bar likely).-->
     {% include 'navbar.html.twig' %}
-    <div class="login">
+    <div class="form">
         <h1>Login</h1>
         <form>
             <label for="username">
@@ -37,6 +37,10 @@
                             case "soap":
                                 alert("Login success, redirecting you back to soap.");
                                 window.location.replace("/soap");
+                                break;
+                            case "send":
+                                alert("Login success, redirecting you back to soap.");
+                                window.location.replace("/send");
                                 break;
                             default:
                                 alert("Login success, redirecting to homepage.");

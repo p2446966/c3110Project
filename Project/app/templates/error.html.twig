@@ -4,11 +4,7 @@
     {% include 'background.html.twig' %} <!--Must be before other content (Otherwise white spaced bar likely).-->
     {% include 'navbar.html.twig' %}
     <div class="page-container">
-        <h2 class="slide" id="welcome-header">Error 404: That request wasn't found.</h2>
+        <h2 style="padding: 25px 0 0 25px">Error {{ error_number }}</h2>
+        <p style="padding: 25px 0 0 25px"> {{ error_message }}</p>
     </div>
-    <script>
-        $("#welcome-header").click(function(){
-            $("#welcome-header").fadeOut(1000);
-        });
-    </script>
 {% endblock %}
