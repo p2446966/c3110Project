@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2020 at 03:31 PM
+-- Generation Time: Jan 15, 2021 at 07:19 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -20,7 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `apiproject`
 --
+
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `telemetry`
+--
+
+CREATE TABLE `telemetry` (
+  `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dest` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `recv_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `switch` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `heater` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keypad` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `users`
 --
@@ -28,11 +46,18 @@ SET time_zone = "+00:00";
 CREATE TABLE `users` (
   `id` bigint(16) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `phone` bigint(10) UNSIGNED DEFAULT NULL COMMENT 'replaced email.',
+  `phone` varchar(14) DEFAULT NULL COMMENT 'replaced email.',
   `password` varchar(512) NOT NULL,
   `join_date` datetime DEFAULT current_timestamp(),
   `last_login_date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `phone`, `password`, `join_date`, `last_login_date`) VALUES
+(0, 'Administrator', '+441234567890', '$2y$10$l5XpvlcPjk4wamJ2PHzM3.CX2CphAu5lGwgP7qzwzOdFgzsquHS7S', '2021-01-08 14:56:02', '2021-01-08 14:56:02');
 
 --
 -- Indexes for dumped tables

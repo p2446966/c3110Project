@@ -73,7 +73,7 @@ WHERE username=? AND password != NULL ";// Change password to "unbanned" for use
         $query = $this->addUser;
 
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("isis", $id, $username, $phone, $password);
+        $stmt->bind_param("isss", $id, $username, $phone, $password);
         //could use a do while in case generated id is taken
         //although i think sql has an autogenerate primary key anyway.....
         // Note from Callum: it has UUID() but in testing it always generated the same.
