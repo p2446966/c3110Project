@@ -10,7 +10,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-$app->get('/Send', function(Request $request, Response $response) use ($app){
+$app->get('/send', function(Request $request, Response $response) use ($app){
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
     if (!isset($_SESSION['Logged_in']) && !$_SESSION['Logged_in'])

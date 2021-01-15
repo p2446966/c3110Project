@@ -9,3 +9,4 @@ require $routes_dir . 'register.php';
 require $routes_dir . 'logout.php';
 
 require $routes_dir . 'soap.php';
+require $routes_dir . 'sendSMS.php';
