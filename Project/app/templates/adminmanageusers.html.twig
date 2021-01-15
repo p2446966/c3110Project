@@ -11,7 +11,7 @@
             <th class="sticky-col first-col">ID</th>
             <th class="sticky-col second-col">Username</th>
             <th class="sticky-col third-col">Phone Number</th>
-            <th class="sticky-col fourth-col">Password</th>
+            <!-- Note from callum. I removed the password row because it could be a security threat despite passwords being hashed. -->
         </tr>
         </thead>
         <tbody>
@@ -20,7 +20,6 @@
             <td>{{ row.id }}</td>
             <td>{{ row.username }}</td>
             <td>{{ row.phone }}</td>
-            <td>{{ row.password }}</td>
         </tr>
         {% endfor %}
         </tbody>
@@ -37,4 +36,51 @@
             <input type="submit" style="margin-top: 0" value="Unban">
     </form>
 </div>
+    <script>
+        $("form").submit(function(e) {
+            e.preventDefault(); // Prevents default actions like refreshing.
+            var val = $("input[type=submit][clicked=true]").val(); // val = value of button, ban or unbanned.
+            var url;
+            switch (val) {
+                case "Ban":
+                    url = "/ban-user";
+                    break;
+                case "Unban":
+                    url = "/unban-user";
+                    break;
+                default:
+                    alert("HTML/JavaScript form error detected.\nDoing nothing.");
+                    return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("form").serialize(),
+                success: function (result) {
+                    xml = eval(result);
+                    success = ($(xml).find('success').text() === 'true');
+
+                    console.dir(xml)
+                    console.log(success);
+
+                    if (success) {
+                        alert("User has been '" + val + "' successfully");
+                    } else {
+                        alert("Could not " + val + " that username.\n" + $(xml).find('message').text());
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(xhr.responseText);
+                    alert(thrownError);
+                    alert("Uh oh, something went wrong on the server. Cancelling action, sorry.");
+                }
+            });
+        });
+        $("form input[type=submit]").click(function() {
+            $("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+            $(this).attr("clicked", "true");
+        });
+    </script>
 {% endblock %}

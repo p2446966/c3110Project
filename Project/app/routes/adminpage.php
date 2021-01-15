@@ -29,7 +29,6 @@ $app->post('/refresh-users', function (Request $request, Response $response) use
     $log = new Logger('logger');
     $log->pushHandler(new StreamHandler(ADMIN_LOG, Logger::INFO));
 
-
     if ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
         return $this->response->withRedirect('/error/403');
     }
@@ -37,10 +36,10 @@ $app->post('/refresh-users', function (Request $request, Response $response) use
     $sql = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
 
-    $users = $sql->allUsersQuery($db_login['database_settings']);
+    $users = $sql->allUsersQuery($db_login['database_settings']);                                           // NOT FINISHED SO DO NOT USE YET.
     if ($users == false)
     {
-        $log->info('ERROR : Administrator could not retrieve users');
+        $log->info('ERROR : Administrator could not retrieve any users');
         $users = [];
     }
     else
@@ -48,7 +47,25 @@ $app->post('/refresh-users', function (Request $request, Response $response) use
         $log->info('Administrator retrieved list of users');
     }
 
-    return $this->view->render($response, $users);
+    //return generation
+    $return = new SimpleXMLElement('<xml/>');
+    $users_results = $return->addChild('users_results');
+
+    if ($users >= 1)
+    {
+        $users_results->addChild('success', "true");
+        $users_results->addChild('message', "");
+    }
+    else {
+        $users_results->addChild('success', "false");
+        $users_results->addChild('message', "");
+    }
+
+    //return preperation
+    header("Content-Type:text/xml");
+
+    print($return->asXML());
+    exit;
 });
 
 $app->post('/ban-user', function (Request $request, Response $response) use ($app){
@@ -66,22 +83,42 @@ $app->post('/ban-user', function (Request $request, Response $response) use ($ap
     $sql = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
 
-    //just in case
+    //just in case... lol
     if ($params['username'] == 'Administrator')
     {
         $log->info('ERROR : Administrator attempted self ban');
-        return $this->response->withRedirect('/manageusers');
+        $result = false;
+    } else {
+        $result = $sql->banUserQuery($db_login['database_settings'], $params['username']);
     }
-
-    $result = $sql->banUserQuery($db_login['database_settings'], $params['username']);
 
     if ($result == false)
     {
-        $log->info('ERROR : failure to ban user : ' . $params['username']);
-        $result = [];
+        $message = 'ERROR: failure to ban user : ' . $params['username'];
+        $log->info($message);
+    } else {
+        $message = 'The user' . $params['username'] . 'has been banned';
     }
 
-    return $this->view->render($response, $result);
+    //return generation
+    $return = new SimpleXMLElement('<xml/>');
+    $ban_results = $return->addChild('ban_results');
+
+    if ($result === true)
+    {
+        $ban_results->addChild('success', "true");
+        $ban_results->addChild('message', $message);
+    }
+    else {
+        $ban_results->addChild('success', "false");
+        $ban_results->addChild('message', $message);
+    }
+
+    //return preperation
+    header("Content-Type:text/xml");
+
+    print($return->asXML());
+    exit;
 });
 
 $app->post('/unban-user', function (Request $request, Response $response) use ($app){
@@ -99,15 +136,42 @@ $app->post('/unban-user', function (Request $request, Response $response) use ($
    $sql = $app->getContainer()->get('SQLQueries');
    $db_login = $app->getContainer()->get('settings');
 
-   $result = $sql->unbanUserQuery($db_login['database_settings'], $params['username']);
-   if ($result == false)
+
+    if ($params['username'] == 'Administrator') {
+        $log->info('ERROR : Administrator attempted self unban. Prevent so password is preserved.');
+        $result = false;
+    } else {
+        $result = $sql->unbanUserQuery($db_login['database_settings'], $params['username']);
+    }
+
+   if ($result === true)
    {
-       $log->info('ERROR : failure to unban user : ' . $params['username']);
-       $result = [];
+       $message = 'Unbanned user "' . $params['username'] .'". Password is now default.';
+       $log->info($message);
    }
    else
    {
-       $log->info('Administrator has unbanned user : ' . $params['username']);
+       $message = 'ERROR: failure to unban user "' . $params['username'] . '".';
+       $log->info($message);
    }
-   return $this->view->render($response, $result);
+
+    //return generation
+    $return = new SimpleXMLElement('<xml/>');
+    $unban_results = $return->addChild('unban_results');
+
+    if ($result == true)
+    {
+        $unban_results->addChild('success', "true");
+        $unban_results->addChild('message', $message);
+    }
+    else {
+        $unban_results->addChild('success', "false");
+        $unban_results->addChild('message', $message);
+    }
+
+    //return preperation
+    header("Content-Type:text/xml");
+
+    print($return->asXML());
+    exit;
 });

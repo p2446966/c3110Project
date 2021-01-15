@@ -50,6 +50,9 @@
                         console.log(success);
                         alert($(xml).find('message').text());
                     }
+                },
+                error: function() {
+                    alert("Uh oh, something went wrong on the server. Cancelling action, sorry.");
                 }
             });
 

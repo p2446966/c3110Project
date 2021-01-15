@@ -19,7 +19,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
     private $getUsers = "SELECT * FROM users WHERE username != 'Administrator'";
     private $banUser = "UPDATE users SET password = NULL WHERE username=?";
     private $unbanUser = "UPDATE users SET password = '$2y$10$.e7xRE9kVyOa9Xc/7v4Z1OgfaqQlB7zMSeycbycSXZuKKRP4ik7Ee' 
-WHERE username=? AND password != NULL ";// Change password to "unbanned" for username ? only if banned.
+WHERE username=? AND password <=> NULL";// Change password to "unbanned" for username ? only if banned.
 
     public function __construct() {}
     public function __destruct() {}
@@ -211,7 +211,7 @@ WHERE username=? AND password != NULL ";// Change password to "unbanned" for use
 
         $stmt->execute();
 
-        if($stmt->affected_rows() > 0){return true;}
+        if($stmt->affected_rows > 0){return true;}
 
         $stmt->free_result();
         $stmt->close();
@@ -228,7 +228,7 @@ WHERE username=? AND password != NULL ";// Change password to "unbanned" for use
 
         $stmt->execute();
 
-        if($stmt->affected_rows() > 0){return true;}
+        if($stmt->affected_rows > 0){return true;}
 
         $stmt->free_result();
         $stmt->close();
