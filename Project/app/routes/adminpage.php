@@ -15,15 +15,22 @@ $app->get('/manageusers', function (Request $request, Response $response) use ($
 
     if (!isset($_SESSION['Logged_in']) || !$_SESSION['Logged_in'] || !isset($_SESSION['USERNAME'])) // If not logged in (including malformed ways) redirect to login page.
     {
-      return $this->response->withRedirect('/login');
+        return $this->response->withRedirect('/login');
     } elseif ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
         return $this->response->withRedirect('/error/403');
+    }
+
+    $sql = $app->getContainer()->get('SQLQueries');
+    $db_login = $app->getContainer()->get('settings');
+    $users = $sql->allUsersQuery($db_login['database_settings']); // (Lazy) first population of table.
+    if ($users > 0) {
+        $twigsArray['userresults'] = $users;
     }
 
     return $this->view->render($response, 'adminmanageusers.html.twig', $twigsArray);
 });
 
-$app->post('/refresh-users', function (Request $request, Response $response) use ($app){
+$app->get('/refresh-users', function (Request $request, Response $response) use ($app){
     session_start();
 
     $log = new Logger('logger');
@@ -36,11 +43,11 @@ $app->post('/refresh-users', function (Request $request, Response $response) use
     $sql = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
 
-    $users = $sql->allUsersQuery($db_login['database_settings']);                                           //ToDo NOT FINISHED SO DO NOT USE YET.
-    if ($users == false)
+    $users = $sql->allUsersQuery($db_login['database_settings']);
+    if ($users === false)
     {
-        $log->info('ERROR : Administrator could not retrieve any users');
-        $users = [];
+        $message= 'ERROR: Could not retrieve any users';
+        $log->info($message);
     }
     else
     {
@@ -49,16 +56,26 @@ $app->post('/refresh-users', function (Request $request, Response $response) use
 
     //return generation
     $return = new SimpleXMLElement('<xml/>');
-    $users_results = $return->addChild('users_results');
 
     if ($users >= 1)
     {
-        $users_results->addChild('success', "true");
-        $users_results->addChild('message', "");
+        $return->addChild('success', "true");
+        $xml_results = $return->addChild('results');
+
+        $i=0;
+        foreach ($users as $user) {
+            $user_row = $xml_results->addChild("Row_".$i++);
+
+            $user_row->addChild("ID", $user['id']);
+            $user_row->addChild("Username", $user['username']);
+            $user_row->addChild("Phone", $user['phone']);
+            $user_row->addChild("Join_Date", $user['join_date']);
+            $user_row->addChild("Last_Login", $user['last_login_date']);
+        }
     }
     else {
-        $users_results->addChild('success', "false");
-        $users_results->addChild('message', "");
+        $return->addChild('success', "false");
+        $return->addChild('message', $message);
     }
 
     //return preperation
@@ -122,19 +139,19 @@ $app->post('/ban-user', function (Request $request, Response $response) use ($ap
 });
 
 $app->post('/unban-user', function (Request $request, Response $response) use ($app){
-   session_start();
+    session_start();
 
-   $log = new Logger('logger');
-   $log->pushHandler(new StreamHandler(ADMIN_LOG, Logger::INFO));
+    $log = new Logger('logger');
+    $log->pushHandler(new StreamHandler(ADMIN_LOG, Logger::INFO));
 
     if ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
         return $this->response->withRedirect('/error/403');
     }
 
-   $params = $request->getParsedBody();
+    $params = $request->getParsedBody();
 
-   $sql = $app->getContainer()->get('SQLQueries');
-   $db_login = $app->getContainer()->get('settings');
+    $sql = $app->getContainer()->get('SQLQueries');
+    $db_login = $app->getContainer()->get('settings');
 
 
     if ($params['username'] == 'Administrator') {
@@ -144,16 +161,16 @@ $app->post('/unban-user', function (Request $request, Response $response) use ($
         $result = $sql->unbanUserQuery($db_login['database_settings'], $params['username']);
     }
 
-   if ($result === true)
-   {
-       $message = 'Unbanned user "' . $params['username'] .'". Password is now default.';
-       $log->info($message);
-   }
-   else
-   {
-       $message = 'ERROR: failure to unban user "' . $params['username'] . '".';
-       $log->info($message);
-   }
+    if ($result === true)
+    {
+        $message = 'Unbanned user "' . $params['username'] .'". Password is now default.';
+        $log->info($message);
+    }
+    else
+    {
+        $message = 'ERROR: failure to unban user "' . $params['username'] . '".';
+        $log->info($message);
+    }
 
     //return generation
     $return = new SimpleXMLElement('<xml/>');

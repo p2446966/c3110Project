@@ -4,39 +4,72 @@
 {% block content %}
     {% include 'background.html.twig' %}
     {% include 'navbar.html.twig' %}
-<div id="user-container">
-    <table style="width:100%">
-        <thead>
-        <tr>
-            <th class="sticky-col first-col">ID</th>
-            <th class="sticky-col second-col">Username</th>
-            <th class="sticky-col third-col">Phone Number</th>
-            <!-- Note from callum. I removed the password row because it could be a security threat despite passwords being hashed. -->
-        </tr>
-        </thead>
-        <tbody>
-        {% for row in userresults %}
-        <tr>
-            <td>{{ row.id }}</td>
-            <td>{{ row.username }}</td>
-            <td>{{ row.phone }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-<br>
-<div class="form">
-    <form>
+    <div id="user-container">
+        <table style="width:100%">
+            <thead>
+            <tr>
+                <th class="sticky-col first-col">ID</th>
+                <th class="sticky-col second-col">Username</th>
+                <th class="sticky-col third-col">Phone Number</th>
+                <!-- Note from callum. I removed the password row because it could be a security threat despite passwords being hashed. -->
+            </tr>
+            </thead>
+            <tbody id="tblBody">
+            {% for row in userresults %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.username }}</td>
+                    <td>{{ row.phone }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <button onclick="refreshTable()" class="styled-button">Refresh</button>
+    <br>
+    <div class="form">
+        <form>
             <label for="username">
                 <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/person-outline.svg"/>
             </label>
             <input type="text" name="username" id="username" placeholder="Username">
             <input type="submit" style="border-radius: 6px 6px 0 0;margin-bottom: 1px" value="Ban">
             <input type="submit" style="margin-top: 0" value="Unban">
-    </form>
-</div>
+        </form>
+    </div>
     <script>
+        function refreshTable() {
+            $.ajax({
+                type: "GET",
+                url: "/refresh-users",
+                success: function (result) {
+                    xml = eval(result);
+                    success = ($(xml).find('success').text() === 'true');
+
+                    console.log(success);
+                    if (success) {
+                        $("#tblBody").empty(); //Clear for new data.
+                        $(xml).find('results').children().each(function() {
+                            formattedRow = "" +
+                                "<tr>" +
+                                "<td>" + $(this).find('ID').text() + "</td>" +
+                                "<td>" + $(this).find('Username').text() + "</td>" +
+                                "<td>" + $(this).find('Phone').text() + "</td>" +
+                                "</tr>";
+                            $("#tblBody").append(formattedRow);
+                        });
+                    } else {
+                        alert("Could not get users:\n" + $(xml).find('message').text());
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    console.log(thrownError);
+                    alert("Uh oh, something went wrong on the server. Cancelling action, sorry.");
+                }
+            });
+        }
+
         $("form").submit(function(e) {
             e.preventDefault(); // Prevents default actions like refreshing.
             var val = $("input[type=submit][clicked=true]").val(); // val = value of button, ban or unbanned.

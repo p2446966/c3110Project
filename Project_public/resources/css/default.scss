@@ -338,6 +338,11 @@ table a {
   color: white;
 }
 
+#user-container {
+  max-height: 47.5vh;
+  overflow-y: auto;
+  overflow-x: auto;
+}
 
 .sticky-col {
   position: sticky;
@@ -639,6 +644,26 @@ table a {
   margin-left: 1%;
 }
 
+/*/ Atomic Button Class /*/
+
+.styled-button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 0;
+    background-color: crimson;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    transition: background-color 0.2s;
+    border-radius: 0 0 6px 6px;
+}
+
+.styled-button:hover {
+  background-color: crimson;
+  transition: background-color 0.2s;
+}
 
 /*/ Animations /*/
 

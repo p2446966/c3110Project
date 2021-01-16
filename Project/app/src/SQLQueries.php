@@ -143,21 +143,21 @@ WHERE username=? AND password <=> NULL";// Change password to "unbanned" for use
         $this->disconnectConn();
         return true;
     }
-    
+
     public function retrieveTelemetry($db_details)
     {
         $result = false;
         $this->establishConn($db_details);
-        
+
         $stmt = $this->database->prepare($this->getTelemetry);
         $stmt->bind_param("s", $_SESSION['phone']);
 
         if (!$stmt) { return $result; }
-        
+
         $stmt->execute();
         $returned = $stmt->get_result();
         $num_of_rows = $returned->num_rows;
-        
+
         if ($num_of_rows > 0)
         {
             $result = [];
@@ -166,7 +166,7 @@ WHERE username=? AND password <=> NULL";// Change password to "unbanned" for use
                 array_push($result, $row);
             }
         }
-        
+
         $stmt->free_result();
         $stmt->close();
         $this->disconnectConn();
@@ -175,7 +175,6 @@ WHERE username=? AND password <=> NULL";// Change password to "unbanned" for use
 
     public function allUsersQuery($db_details) //All users except Administrators account.
     {
-        $success = false;
         $this->establishConn($db_details);
 
         $stmt = $this->database->prepare($this->getUsers);
@@ -199,7 +198,7 @@ WHERE username=? AND password <=> NULL";// Change password to "unbanned" for use
         $stmt->free_result();
         $stmt->close();
         $this->disconnectConn();
-        return $success;
+        return false;
     }
 
     public function banUserQuery($db_details, $username)
