@@ -81,7 +81,7 @@ class XMLParser
                 //at the moment only messages sent from EE server to EE server can be recieved
                 if ($breakdown->message->group == 'TCR')
                 {
-                    if ($breakdown->sourcemsisdn == '447817814149' or $breakdown->sourcemsisdn == $_SESSION['phone'])
+                    if ($breakdown->sourcemsisdn == $_SESSION['phone']) //or $breakdown->sourcemsisdn == '447817814149')
                     {
                         $array_form = $this->convertToArray($breakdown);
                         array_push($this->processed_data, $array_form);
