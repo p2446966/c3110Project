@@ -21,6 +21,7 @@ $app->get('/send', function(Request $request, Response $response) use ($app){
 });
 
 $app->post('/auth-send', function (Request $request, Response $response) use ($app){
+    session_start();
 
     $log = new Logger('logger');
     $log->pushHandler(new StreamHandler(MESSAGE_LOG, Logger::INFO));
@@ -47,7 +48,24 @@ $app->post('/auth-send', function (Request $request, Response $response) use ($a
         $log->info('ERROR : User : ' . $_SESSION['USERNAME'] . ' recieved error sending to SMS : ' . $cleaned_dest);
     }
 
-    return $this->view->render($response, $process_outcome);
+    //return generation
+    $return = new SimpleXMLElement('<xml/>');
+
+    if ($result === true)
+    {
+        $return->addChild('success', "true");
+        $return->addChild('message', $process_outcome);
+    }
+    else {
+        $return->addChild('success', "false");
+        $return->addChild('message', $process_outcome);
+    }
+
+    //return preperation
+    header("Content-Type:text/xml");
+
+    print($return->asXML());
+    exit;
 });
 
 

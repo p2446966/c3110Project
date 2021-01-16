@@ -4,30 +4,43 @@
 {% block content %}
     {% include 'background.html.twig' %}
     {% include 'navbar.html.twig' %}
-<div class="form">
-    <h1>Send Message</h1>
-    <form>
-        <label for="destination">
-            <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/phone-outline.svg"/>
-        </label>
-        <input type="text" name="destination" placeholder="Destination" id="destination">
-        <label for="message">
-            <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/message-square-outline.svg"/>
-        </label>
-        <input type="text" name="message" placeholder="Message" id="message" width="500" height="500">
-        <input type="submit" value="Send">
-    </form>
-</div>
+    <div class="form">
+        <h1>Send Message</h1>
+        <form>
+            <label for="destination">
+                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/phone-outline.svg"/>
+            </label>
+            <input type="text" name="destination" placeholder="Destination" id="destination">
+            <label for="message">
+                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/message-square-outline.svg"/>
+            </label>
+            <input type="text" name="message" placeholder="Message" id="message" width="500" height="500">
+            <input type="submit" value="Send">
+        </form>
+    </div>
 
 
-<script>
-    $('form').on('submit', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: '/auth-send',
-            data: $('form').serialize()
-        });
-    })
-</script>
+    <script>
+        $('form').on('submit', function (e) {
+            e.preventDefault(); // Prevents default actions like refreshing.
+
+            $.ajax({
+                type: "POST",
+                url: '/auth-send',
+                data: $("form").serialize(),
+                success: function (result) {
+                    xml = eval(result);
+                    success = ($(xml).find('success').text() === 'true');
+
+                    alert($(xml).find('message').text());
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    console.log(thrownError);
+                    alert("Uh oh, something went wrong on the server. Cancelling action, sorry.");
+                }
+            });
+
+        })
+    </script>
 {% endblock %}
