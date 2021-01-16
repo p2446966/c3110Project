@@ -1,6 +1,6 @@
 {% extends 'header.html.twig' %}
 {% block extra_meta %}<link rel="stylesheet" href="/resources/css/form.css" type="text/css"/>{% endblock %}
-{% block title %}NexHub{% endblock %}
+{% block title %}Soap: Admin Page{% endblock %}
 {% block content %}
     {% include 'background.html.twig' %}
     {% include 'navbar.html.twig' %}
@@ -52,10 +52,10 @@
                         $(xml).find('results').children().each(function() {
                             formattedRow = "" +
                                 "<tr>" +
-                                "<td>" + $(this).find('ID').text() + "</td>" +
-                                "<td>" + $(this).find('Username').text() + "</td>" +
-                                "<td>" + $(this).find('Phone').text() + "</td>" +
-                                "</tr>";
+                                "<td>" + $(this).find('ID').text() + "<\/td>" +
+                                "<td>" + $(this).find('Username').text() + "<\/td>" +
+                                "<td>" + $(this).find('Phone').text() + "<\/td>" +
+                                "<\/tr>";
                             $("#tblBody").append(formattedRow);
                         });
                     } else {

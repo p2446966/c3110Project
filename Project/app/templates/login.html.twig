@@ -1,6 +1,6 @@
 {% extends 'header.html.twig' %}
 {% block extra_meta %}<link rel="stylesheet" href="/resources/css/form.css" type="text/css"/>{% endblock %}
-{% block title %}NexHub{% endblock %}
+{% block title %}Soap: Login{% endblock %}
 {% block content %}
     {% include 'background.html.twig' %} <!--Must be before other content (Otherwise white spaced bar likely).-->
     {% include 'navbar.html.twig' %}
@@ -8,11 +8,11 @@
         <h1>Login</h1>
         <form>
             <label for="username">
-                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/person-outline.svg"/>
+                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/person-outline.svg" alt="https://content.nexhub.co.uk/resources/icons/eva/outline/png/person-outline.png"/>
             </label>
             <input type="text" name="username" placeholder="Username" id="username" required pattern="[^()}{/<>#,[\]\\,'|\x22]+">
             <label for="password">
-                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/phone-outline.svg"/>
+                <img src="https://content.nexhub.co.uk/resources/icons/eva/outline/svg/lock-outline.svg" alt="https://content.nexhub.co.uk/resources/icons/eva/outline/png/lock-outline.png"/>
             </label>
             <input type="password" name="password" placeholder="Password" id="password" required>
             <input type="submit" value="Login">
