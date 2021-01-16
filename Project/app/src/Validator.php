@@ -99,7 +99,7 @@ class Validator
                     $int_test = (int)substr($cleaned_number, 1);
                     if (($int_test == substr($cleaned_number, 1)) == 1)
                     {
-                        $result = true;
+                        $result = substr($cleaned_number, 1); //true;
                     }
                 }
                 catch (\Exception $e)
