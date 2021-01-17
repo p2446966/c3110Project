@@ -146,7 +146,7 @@ WHERE username=? AND password <=> NULL";// Change password to "unbanned" for use
 
     public function retrieveTelemetry($db_details)
     {
-        $result = false;
+        $result = [];
         $this->establishConn($db_details);
 
         $stmt = $this->database->prepare($this->getTelemetry);
