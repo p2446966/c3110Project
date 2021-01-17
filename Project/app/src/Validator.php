@@ -50,14 +50,15 @@ class Validator
     // keypad : integer
     public function validateTelemetry($tainted_telemetry)
     {
-        foreach ($tainted_telemetry['switch'] as $char)
+        $split_switch = str_split($tainted_telemetry['switch']);
+        foreach ($split_switch as $char)
         {
-            if ($char != "0" or $char != "1")
+            if (($char != "0") and ($char != "1"))
             {
                 return false;
             }
         }
-        if ($tainted_telemetry['fan'] != "forward" or $tainted_telemetry['fan'] != "reverse")
+        if (($tainted_telemetry['fan'] != "forward" and ($tainted_telemetry['fan'] != "reverse"))
         {
             return false;
         }
@@ -74,7 +75,7 @@ class Validator
                 return false;
             }
             
-            return true;
+            return $tainted_telemetry;
         }
         catch (\Exception $e)
         {
