@@ -58,7 +58,7 @@ class Validator
                 return false;
             }
         }
-        if (($tainted_telemetry['fan'] != "forward" and ($tainted_telemetry['fan'] != "reverse"))
+        if (($tainted_telemetry['fan'] != "forward" and ($tainted_telemetry['fan'] != "reverse")))
         {
             return false;
         }
