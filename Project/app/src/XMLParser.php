@@ -75,16 +75,19 @@ class XMLParser
         {
             try
             {
-                $breakdown = simplexml_load_string($message);
-                // TODO : implement check for user phone number in database
-                // TODO : also add phone number to database
-                //at the moment only messages sent from EE server to EE server can be recieved
-                if ($breakdown->message->group == 'TCR')
+                if (str_contains($message, '&lt;') == false)
                 {
-                    if ($breakdown->sourcemsisdn == $_SESSION['phone']) //or $breakdown->sourcemsisdn == '447817814149')
+                    $breakdown = simplexml_load_string($message);
+                    // TODO : implement check for user phone number in database
+                    // TODO : also add phone number to database
+                    //at the moment only messages sent from EE server to EE server can be recieved
+                    if ($breakdown->message->group == 'TCR')
                     {
-                        $array_form = $this->convertToArray($breakdown);
-                        array_push($this->processed_data, $array_form);
+                        if ($breakdown->sourcemsisdn == $_SESSION['phone']) //or $breakdown->sourcemsisdn == '447817814149')
+                        {
+                            $array_form = $this->convertToArray($breakdown);
+                            array_push($this->processed_data, $array_form);
+                        }
                     }
                 }
             }
