@@ -55,8 +55,8 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
         
     foreach ($messages as $message)
     {
-        $check_message = $validator->validateTelemetry($message);
-        if ($check_message)
+        $clean_message = $validator->validateTelemetry($message);
+        if ($clean_message != false)
         {
             //check timestamp against current
             $current_time = str_replace([' ', '/', ':'], '', $clean_message['receivedtime']);
@@ -65,7 +65,7 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
                 //send to database
                 $sql->storeTelemetry($db_login['database_settings'], $message);
                 //add to current message list
-                array_push($stored_messages, $clean_messages);
+                array_push($stored_messages, $clean_message);
             }
         }
     }
