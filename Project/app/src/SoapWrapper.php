@@ -3,10 +3,12 @@
 /**
  * @author : ctapp
  * date created 20/11/20
- * new soap
+ * Class SoapWrapper
+ * @package Telemetry
  */
 
 namespace Telemetry;
+
 
 
 class SoapWrapper
