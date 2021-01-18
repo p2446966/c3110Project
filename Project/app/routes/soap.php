@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ */
 //in templates the soap twig file uses {% for row in downloadsresults %}
 //so i'm assuming that also needs to be parsed to the twig render
 
