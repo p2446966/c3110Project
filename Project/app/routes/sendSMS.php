@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ */
 //retrieve params
 //validate
 //send message
