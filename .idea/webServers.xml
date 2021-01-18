@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ad5f9d51-7e2a-4aec-9f3a-0119069e789c" name="PHP server" url="http://php.tech.dmu.ac.uk:6789/p2440241/">
+        <fileTransfer rootFolder="/home/p2440241" accessType="SFTP" host="php.tech.dmu.ac.uk" port="4567" sshConfigId="ab7a63a9-5705-4919-93e3-213cbaef4581" sshConfig="p2440241@php.tech.dmu.ac.uk:4567 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="ed2c3811-ce31-41a2-9948-3fc8829db07c" name="mySQL Server" url="">
+        <fileTransfer rootFolder="/home/p2440241" accessType="SFTP" host="mysql.tech.dmu.ac.uk" port="4567" sshConfigId="c439a3e1-1895-4c46-8fd3-b1a0f0d49d8f" sshConfig="p2440241@mysql.tech.dmu.ac.uk:4567 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
