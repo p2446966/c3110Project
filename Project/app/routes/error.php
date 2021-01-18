@@ -1,9 +1,14 @@
 <?php
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @param $args
+ * @return mixed
+ */
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/error/{number}', function(Request $request, Response $response, $args) use ($app)
+$app->get( '/error/{number}', function(Request $request, Response $response, $args) use ($app)
 {
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
