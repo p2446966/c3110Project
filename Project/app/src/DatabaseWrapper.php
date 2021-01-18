@@ -1,9 +1,12 @@
 <?php
-
+/**
+ * Class DatabaseWrapper
+ * @package Telemetry
+ */
 /*
  *  @author : ctapp, ccunha
  *
- *  This class manages the database connection itself
+ *  This class manages the database connection itself and ensures data capture
  */
 
 namespace Telemetry;
