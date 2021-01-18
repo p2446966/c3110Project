@@ -11,6 +11,11 @@ require 'Project/app/src/SessionsModel.php';
 
 //pre-fab code to register twig templates into slim
 
+
+/**
+ * @param $container
+ * @return \Slim\Views\Twig
+ */
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(
         $container['settings']['view']['template_path'],
@@ -33,6 +38,10 @@ $container['validator'] = function ($container) {
     return $validator;
 };
 
+/**
+ * @param $container
+ * @return \Telemetry\SoapWrapper
+ */
 $container['soapWrapper'] = function ($container) {
     $soapWrapper = new \Telemetry\SoapWrapper();
     return $soapWrapper;
@@ -43,6 +52,10 @@ $container['xmlParser'] = function ($container) {
     return $xmlParser;
 };
 
+/**
+ * @param $container
+ * @return \Telemetry\DatabaseWrapper
+ */
 $container['databaseWrapper'] = function ($container) {
     $databaseWrapper = new \Telemetry\DatabaseWrapper();
     return $databaseWrapper;
@@ -53,6 +66,10 @@ $container['SQLQueries'] = function ($container) {
     return $SQLQueries;
 };
 
+/**
+ * @param $container
+ * @return \Telemetry\SessionsModel
+ */
 $container['sessionsModel'] = function ($container) {
     $sessionsModel = new \Telemetry\SessionsModel();
     return $sessionsModel;
