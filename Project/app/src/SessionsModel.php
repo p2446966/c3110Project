@@ -1,5 +1,8 @@
 <?php
-
+/**
+* Class SessionsModel
+ * @package Telemetry
+*/
 
 namespace Telemetry;
 
