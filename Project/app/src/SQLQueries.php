@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Class SQLQueries
+ * @package Telemetry
+ */
 /*
  *  @author : ctapp, ccunha
  *
@@ -7,6 +10,7 @@
  */
 
 namespace Telemetry;
+
 
 
 class SQLQueries extends DatabaseWrapper
