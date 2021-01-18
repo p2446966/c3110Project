@@ -10,9 +10,12 @@
  *  <bearer> either "GPRS" or "SMS"
  *  <messageref> not really sure
  *  <message> contents of message may also be in XML
+ * Class XMLParser
+ * @package Telemetry
  */
 
 namespace Telemetry;
+
 
 
 class XMLParser
