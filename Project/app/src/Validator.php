@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Class Validator
+ * @package Telemetry
+ */
 /*
  * incoming data downloaded from the m2m server
  * must be validated
@@ -8,6 +11,7 @@
  */
 
 namespace Telemetry;
+
 
 
 class Validator
