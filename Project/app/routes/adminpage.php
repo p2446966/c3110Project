@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ */
 //refresh button to view users
 //ban and unban buttons for users
 
@@ -9,7 +13,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-$app->get('/manageusers', function (Request $request, Response $response) use ($app){
+$app->get( function (Request $request, Response $response) use ($app){
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
