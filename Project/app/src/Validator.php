@@ -17,10 +17,22 @@ namespace Telemetry;
 class Validator
 {
 
+    /**
+     * Validator constructor.
+     */
     public function __construct(){}
+
+    /**
+     *
+     */
     public function __destruct(){}
 
     //Callum's regex filter moved from accounts.php to here in seperate method
+
+    /**
+     * @param $tainted_parameters
+     * @return bool[]
+     */
     public function validateInput($tainted_parameters)
     {
         //sanitise both username and password
@@ -36,6 +48,11 @@ class Validator
     }
 
     //basic sanitiser, for user input and soap recieves
+
+    /**
+     * @param $tainted_string
+     * @return bool|mixed
+     */
     public function sanitiseString($tainted_string)
     {
         $cleaned_string = false;
@@ -52,6 +69,10 @@ class Validator
     // fan : 'forward' or 'reverse'
     // heater : integer
     // keypad : integer
+    /**
+     * @param $tainted_telemetry
+     * @return bool
+     */
     public function validateTelemetry($tainted_telemetry)
     {
         $split_switch = str_split($tainted_telemetry['switch']);
@@ -87,11 +108,17 @@ class Validator
         }
     }
 
+    /**
+     * @return string
+     */
     public function testExistence()
     {
         return "This class and method can be found";
     }
-    
+
+    /**
+     * @param $tainted_number
+     */
     public function validatePhoneNumber($tainted_number)
     {
         $result = false;
