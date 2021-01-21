@@ -2,9 +2,10 @@
 
 /**
  * @author : ctapp
- * date created 20/11/20
  * Class SoapWrapper
  * @package Telemetry
+ * This is to extract information about service to be consumed from the WSDL.
+ * Also, enables access web services over HTTP.
  */
 
 namespace Telemetry;
@@ -13,19 +14,25 @@ namespace Telemetry;
 
 class SoapWrapper
 {
+
     /**
      * SoapWrapper constructor.
+     * the constructor will take in WSDL file name as parameter.
+     * extract information about service to be consumed from the WSDL.
      */
     public function __construct() {}
 
     /**
-     *
+     * Destructor called when an object is destructed.
+     * PHP to call this function at the end of script.
      */
     public function __destruct() {}
 
     /**
      * Soap Client
      * @return \SoapClient|string
+     * provides a client for SOAP sever
+     * protocol to access web service over HTTP.
      */
     public function createSoapClient()
     {
@@ -50,7 +57,7 @@ class SoapWrapper
      *  - string message
      *  - boolean deliveryReport
      *  - string mtBearer ("SMS")
-     *returns
+     * This returns
      *  - int returnCode, indicates successful call
      *
      */
@@ -92,7 +99,7 @@ class SoapWrapper
      *  - string password
      *  - int count
      *  - string deviceMSISDN
-     * returns
+     * this returns
      *  - string[] returnMsgs
      *      array of XML messages, possibly empty
      */

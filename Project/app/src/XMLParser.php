@@ -20,20 +20,39 @@ namespace Telemetry;
 
 class XMLParser
 {
-    //this is the unparsed array
+    /**
+     * @var array
+     * this is the unparsed array
+     */
     private $XMLData;
-    //this is the processed array
+    /**
+     * @var array
+     * this is the processed array
+     */
     private $processed_data;
-    
+
+    /**
+     * XMLParser constructor.
+     * constructor for set up of a class when it is initialized.
+     */
     public function __construct()
     {
         $this->XMLData = [];
         $this->processed_data = [];
     }
-    
+
+    /**
+     * destruct method to be called when there are no more references to an object.
+     * forces its deletion.
+     * PHP to call this function at the end of script.
+     */
     public function __destruct() {}
 
-    //add unparsed data into unparsed array
+
+    /**
+     * @param $recieved_data
+     * add unparsed data into unparsed array
+     */
     public function setXMLData($recieved_data)
     {
         if (!empty($recieved_data) && !is_null($recieved_data))
@@ -44,7 +63,12 @@ class XMLParser
             }
         }
     }
-    
+
+    /**
+     * @param $XMLObject
+     * @return array
+     * converts XML object to array
+     */
     public function convertToArray($XMLObject)
     {
         $returned_array = [
@@ -96,11 +120,15 @@ class XMLParser
             }
             catch (Exception $e)
             {
-                //ignore
+
             }
         }
     }
-    
+
+    /**
+     * @return array
+     * returns data as an array
+     */
     public function getData()
     {
         return $this->processed_data;

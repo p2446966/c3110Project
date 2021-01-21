@@ -2,13 +2,10 @@
 /**
  * Class Validator
  * @package Telemetry
+ * this is for incoming data downloaded from the m2m server
+ * this must be validated
  */
-/*
- * incoming data downloaded from the m2m server
- * must be validated
- *
- * also could do validation for accounts if we want to do that
- */
+
 
 namespace Telemetry;
 
@@ -19,19 +16,24 @@ class Validator
 
     /**
      * Validator constructor.
+     * constructor for set up of a class when it is initialized.
      */
     public function __construct(){}
 
     /**
-     *
+     * destruct method to be called when there are no more references to an object.
+     * forces its deletion.
+     * PHP to call this function at the end of script.
      */
     public function __destruct(){}
 
-    //Callum's regex filter moved from accounts.php to here in seperate method
 
     /**
      * @param $tainted_parameters
      * @return bool[]
+     * regex filter moved from accounts.php to here in separate method
+     * this is to sanitise both username and password
+     * also, to filter username for invalid chars entered
      */
     public function validateInput($tainted_parameters)
     {
@@ -47,11 +49,11 @@ class Validator
         return [$cleaned_user, $cleaned_pass]; //No index name given, so index are 0 and 1 when used externally to this class.
     }
 
-    //basic sanitiser, for user input and soap recieves
 
     /**
      * @param $tainted_string
      * @return bool|sanitsied string| cleaned string
+     * basic sanitiser, for user input that soap receives
      */
     public function sanitiseString($tainted_string)
     {
@@ -120,6 +122,8 @@ class Validator
 
     /**
      * @param $tainted_number
+     * this is to validate phone number
+     * detects valid number
      */
     public function validatePhoneNumber($tainted_number)
     {
@@ -138,7 +142,7 @@ class Validator
                 }
                 catch (\Exception $e)
                 {
-                    //ignore
+
                 }
             }
         }
