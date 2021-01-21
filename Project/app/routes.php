@@ -1,7 +1,5 @@
 <?php
-/**
- * these are the routes for the site
- */
+//These are the routes for the site.
 $routes_dir = "routes/";
 
 require $routes_dir . 'homepage.php';
