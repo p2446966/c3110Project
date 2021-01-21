@@ -9,12 +9,13 @@ require 'Project/app/src/DatabaseWrapper.php';
 require 'Project/app/src/SQLQueries.php';
 require 'Project/app/src/SessionsModel.php';
 
-//pre-fab code to register twig templates into slim
 
 
 /**
  * @param $container
  * @return \Slim\Views\Twig
+ * pre-fab code to register twig templates into slim
+ * Instantiates and add Slim specific extension
  */
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(
@@ -25,14 +26,19 @@ $container['view'] = function ($container) {
         ]
     );
 
-    // Instantiate and add Slum specific extension
+    // Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
 
     return $view;
 };
 
-//register components from src into the container
+
+/**
+ * @param $container
+ * @return \Telemetry\Validator
+ * register components from src into the container
+ */
 $container['validator'] = function ($container) {
     $validator = new \Telemetry\Validator();
     return $validator;
@@ -47,6 +53,10 @@ $container['soapWrapper'] = function ($container) {
     return $soapWrapper;
 };
 
+/**
+ * @param $container
+ * @return \Telemetry\XMLParser
+ */
 $container['xmlParser'] = function ($container) {
     $xmlParser = new \Telemetry\XMLParser();
     return $xmlParser;
@@ -61,6 +71,10 @@ $container['databaseWrapper'] = function ($container) {
     return $databaseWrapper;
 };
 
+/**
+ * @param $container
+ * @return \Telemetry\SQLQueries
+ */
 $container['SQLQueries'] = function ($container) {
     $SQLQueries = new \Telemetry\SQLQueries();
     return $SQLQueries;
