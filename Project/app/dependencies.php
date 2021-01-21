@@ -47,6 +47,7 @@ $container['validator'] = function ($container) {
 /**
  * @param $container
  * @return \Telemetry\SoapWrapper
+ * wrapper for incoming parameters returns soap wrapper
  */
 $container['soapWrapper'] = function ($container) {
     $soapWrapper = new \Telemetry\SoapWrapper();
@@ -56,6 +57,7 @@ $container['soapWrapper'] = function ($container) {
 /**
  * @param $container
  * @return \Telemetry\XMLParser
+ * creates a new XML parser and returns a XMLParser instance to be used
  */
 $container['xmlParser'] = function ($container) {
     $xmlParser = new \Telemetry\XMLParser();
@@ -74,6 +76,7 @@ $container['databaseWrapper'] = function ($container) {
 /**
  * @param $container
  * @return \Telemetry\SQLQueries
+ * creates a new SQL queries and returns a SQLQueries
  */
 $container['SQLQueries'] = function ($container) {
     $SQLQueries = new \Telemetry\SQLQueries();
