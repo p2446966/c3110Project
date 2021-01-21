@@ -1,16 +1,17 @@
 <?php
-/**
- * @param Request $request
- * @param Response $response
- * @return mixed
- */
+
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-/// Register ///
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ * Register code for redirection to register user if user needs registering and register request has been made.
+ */
 $app->get('/register', function (Request $request, Response $response) use ($app) {
     session_start();
 
@@ -18,7 +19,14 @@ $app->get('/register', function (Request $request, Response $response) use ($app
     return $this->view->render($response, 'register.html.twig', $twigsArray);
 })->setName('Register');
 
-/// auth-register ///
+/**
+ * @param Request $request
+ * @param Response $response
+ * authenticate register of user and log onto user databse
+ * allow user to register using 'username', 'password' 'phone number'.
+ * register request reuires all field to be filled in correct format.
+ * phone number format requires '+44' UK number registration.
+ */
 $app->post('/auth-register', function (Request $request, Response $response) use ($app) {
     session_start();
 
@@ -59,7 +67,8 @@ $app->post('/auth-register', function (Request $request, Response $response) use
         $register_results->addChild('message', $register_success);
     }
 
-    //return preperation
+    // return preperation
+
     header("Content-Type:text/xml");
 
     print($return->asXML());

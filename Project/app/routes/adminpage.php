@@ -3,9 +3,9 @@
  * @param Request $request
  * @param Response $response
  * @return mixed
+ * Refresh button is to view users
+ * Ban and unban buttons are to have control of users
  */
-//refresh button to view users
-//ban and unban buttons for users
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -13,14 +13,19 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-$app->get( function (Request $request, Response $response) use ($app){
+$app->get(/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ * Login request for admin account, to ensure correct authentication applied
+ */ function (Request $request, Response $response) use ($app){
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
     if (!isset($_SESSION['Logged_in']) || !$_SESSION['Logged_in'] || !isset($_SESSION['USERNAME'])) // If not logged in (including malformed ways) redirect to login page.
     {
         return $this->response->withRedirect('/login');
-    } elseif ($_SESSION['USERNAME'] != 'Administrator') { // If not administrator redirect to "Forbidden Error" page.
+    } elseif ($_SESSION['USERNAME'] != 'Administrator') { // If not the administrator is redirected to "Forbidden Error" page.
         return $this->response->withRedirect('/error/403');
     }
 
@@ -33,7 +38,12 @@ $app->get( function (Request $request, Response $response) use ($app){
 
     return $this->view->render($response, 'adminmanageusers.html.twig', $twigsArray);
 });
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ * This is to refresh user log on admin pannel, user data from database should be updated when requested.
+ */
 $app->get('/refresh-users', function (Request $request, Response $response) use ($app){
     session_start();
 
@@ -88,7 +98,13 @@ $app->get('/refresh-users', function (Request $request, Response $response) use 
     print($return->asXML());
     exit;
 });
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ * This is to ban a user.
+ * Only done through administrators account, request from other account should redirect to error 403 for access to the request forbidden.
+ */
 $app->post('/ban-user', function (Request $request, Response $response) use ($app){
     session_start();
 
@@ -104,7 +120,7 @@ $app->post('/ban-user', function (Request $request, Response $response) use ($ap
     $sql = $app->getContainer()->get('SQLQueries');
     $db_login = $app->getContainer()->get('settings');
 
-    //just in case... lol
+    //this is in case of self ban, as prevention of banning the administrator account
     if ($params['username'] == 'Administrator')
     {
         $log->info('ERROR : Administrator attempted self ban');
@@ -121,7 +137,7 @@ $app->post('/ban-user', function (Request $request, Response $response) use ($ap
         $message = 'The user' . $params['username'] . 'has been banned';
     }
 
-    //return generation
+    //return generations
     $return = new SimpleXMLElement('<xml/>');
     $ban_results = $return->addChild('ban_results');
 
@@ -141,7 +157,13 @@ $app->post('/ban-user', function (Request $request, Response $response) use ($ap
     print($return->asXML());
     exit;
 });
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ * This is for making a request to unban a banned user.
+ * Only done through administrators account, request from other account should redirect to error 403, for access to the request forbidden.
+ */
 $app->post('/unban-user', function (Request $request, Response $response) use ($app){
     session_start();
 

@@ -13,9 +13,20 @@ namespace Telemetry;
 
 class SoapWrapper
 {
+    /**
+     * SoapWrapper constructor.
+     */
     public function __construct() {}
+
+    /**
+     *
+     */
     public function __destruct() {}
 
+    /**
+     * Soap Client
+     * @return \SoapClient|string
+     */
     public function createSoapClient()
     {
         $wsdl = WSDL;
@@ -75,7 +86,7 @@ class SoapWrapper
     }
 
 
-    /*
+    /**
      * readMessages
      *  - string username
      *  - string password

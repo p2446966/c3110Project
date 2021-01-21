@@ -3,7 +3,9 @@
  * @param Request $request
  * @param Response $response
  * @param $args
- * @return mixed
+ * @return mixed $errormessage
+ * error message dependant on request type and redirection to error page.
+ * error messages are for when page is redirected for request that is not possible based on request.
  */
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;

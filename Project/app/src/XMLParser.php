@@ -20,9 +20,9 @@ namespace Telemetry;
 
 class XMLParser
 {
-    //unparsed array
+    //this is the unparsed array
     private $XMLData;
-    //processed array
+    //this is the processed array
     private $processed_data;
     
     public function __construct()

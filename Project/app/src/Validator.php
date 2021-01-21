@@ -51,7 +51,7 @@ class Validator
 
     /**
      * @param $tainted_string
-     * @return bool|mixed
+     * @return bool|sanitsied string| cleaned string
      */
     public function sanitiseString($tainted_string)
     {
@@ -64,14 +64,15 @@ class Validator
         return $cleaned_string;
     }
 
-    //filters, sanitises and returns telemetry
-    // switch : 4 digit 1 or 0
-    // fan : 'forward' or 'reverse'
-    // heater : integer
-    // keypad : integer
+
     /**
      * @param $tainted_telemetry
      * @return bool
+     * filters, sanitises and returns telemetry
+     * switch : 4 digit 1 or 0
+     * fan : 'forward' or 'reverse'
+     * heater : integer
+     * keypad : integer
      */
     public function validateTelemetry($tainted_telemetry)
     {
@@ -110,6 +111,7 @@ class Validator
 
     /**
      * @return string
+     * This should return a method and class that can be found.
      */
     public function testExistence()
     {

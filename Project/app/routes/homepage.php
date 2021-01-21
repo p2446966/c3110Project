@@ -3,6 +3,8 @@
  * @param Request $request
  * @param Response $response
  * @return mixed
+ * Homepage should appear upon request and login.
+ * Successful log in or register will redirect to home page.
  */
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;

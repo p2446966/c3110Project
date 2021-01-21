@@ -10,14 +10,26 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-/// login ///
-$app->get( '/login', function(Request $request, Response $response) use ($app) {
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ * Login code for login page request
+ * Open login page for users to log in.
+ */
+$app->get('/login', function(Request $request, Response $response) use ($app) {
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
     return $this->view->render($response, 'login.html.twig', $twigsArray);
 });
 
-/// auth-login ///
+/**
+ * @param Request $request
+ * @param Response $response
+ * Auth-login code to authorise user and log user info to admin pannel and database.
+ * Successful log in attempt will return 'successful login' and redirection of page.
+ * unsuccessful login return 'Incorrect user name and password' message and redirect to login page.
+ */
 $app->post('/auth-login', function (Request $request, Response $response) use ($app) {
     session_start();
 
@@ -34,7 +46,7 @@ $app->post('/auth-login', function (Request $request, Response $response) use ($
 
     $login_success = $database->loginQuery($db_login['database_settings'], $login_params[0], $login_params[1]);
 
-    //return generation
+    // return generation
     $return = new SimpleXMLElement('<xml/>');
     $login_results = $return->addChild('login_results');
 
@@ -54,7 +66,7 @@ $app->post('/auth-login', function (Request $request, Response $response) use ($
         $login_results->addChild('message', "Incorrect username or password.");
     }
 
-    //return preperation
+    // return preperation
     header("Content-Type:text/xml");
 
     print($return->asXML());

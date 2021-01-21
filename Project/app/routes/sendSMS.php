@@ -1,19 +1,19 @@
 <?php
-/**
- * @param Request $request
- * @param Response $response
- * @return mixed
- */
-//retrieve params
-//validate
-//send message
+
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return mixed
+ * this is to request a message to be sent to a UK '+44' number.
+ *
+ * end messages
+ */
 $app->get('/send', function(Request $request, Response $response) use ($app){
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
@@ -23,8 +23,16 @@ $app->get('/send', function(Request $request, Response $response) use ($app){
     }
     return $this->view->render($response, 'sendmessagepage.html.twig', $twigsArray);
 });
-
-$app->post('/auth-send', function (Request $request, Response $response) use ($app){
+/**
+ * @param Request $request
+ * @param Response $response
+ * request is validated to ensure user is authorised
+ * message sent when all field filled in correct format
+ * returns true if message was sent successfully
+ * with message to user 'Message Sent Successfully'
+ * messages that do not send a 'Error: Message could not be sent', usually format issue.
+ */
+$app->post( '/auth-send', function (Request $request, Response $response) use ($app){
     session_start();
 
     $log = new Logger('logger');

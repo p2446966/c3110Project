@@ -1,21 +1,18 @@
 <?php
-/**
- * @param Request $request
- * @param Response $response
- * @return mixed
- */
-//in templates the soap twig file uses {% for row in downloadsresults %}
-//so i'm assuming that also needs to be parsed to the twig render
 
-//first soap gets checked for new messages
-//anything new gets retrieved, parsed, validated and added to the database
-//database then retrieves all of the user's messages in the form of an array of arrays
-
-//change and move things around if you need to
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-
+/**
+ * @param Request $request
+ * @param Response $response
+ * @return login soap
+ * In templates the soap twig file uses {% for row in downloadsresults %}.
+ * Also needs to be parsed to the twig render.
+ * First soap gets checked for new messages.
+ * Anything new gets retrieved, parsed, validated and added to the database.
+ * Database then retrieves all of the user's messages in the form of an array of arrays.
+ */
 $app->get('/soap', function(Request $request, Response $response) use ($app)
 {
     session_start();
@@ -27,26 +24,26 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
         return $this->response->withRedirect('/login#soap');
     }
 
-    //retrieve messages
+    // retrieve messages from server
     $soap = $app->getContainer()->get('soapWrapper');
     $soap_handle = $soap->createSoapClient();
     $recSMS = $soap->recieveSMS($soap_handle, SOAP_USER, SOAP_PASS, 10, $_SESSION['phone']);
     
-    //parse XML
+    //parse XML get data
     $xml = $app->getContainer()->get('xmlParser');
     $xml->setXMLData($recSMS);
     $xml->parseXML(); //now in array form
     $messages = $xml->getData();
     
-    //validate and store
+    //this is to validate and stored telemetry data
     $sql = $app->getContainer()->get('SQLQueries');
     $validator = $app->getContainer()->get('validator');
     $db_login = $app->getContainer()->get('settings');
     
-    //retrieve stored messages
+    //this is to retrieve stored messages from database
     $stored_messages = $sql->retrieveTelemetry($db_login['database_settings']);
     
-    //fetch latest timestamp
+    //fetch the latest timestamp
     if (sizeof($stored_messages) > 0)
     {
         $latest_timestamp = $stored_messages[sizeof($stored_messages) - 1]['receivedtime'];
@@ -62,13 +59,13 @@ $app->get('/soap', function(Request $request, Response $response) use ($app)
         $clean_message = $validator->validateTelemetry($message);
         if ($clean_message != false)
         {
-            //check timestamp against current
+            // check timestamp against the current one.
             $current_time = str_replace([' ', '/', ':'], '', $clean_message['receivedtime']);
             if ($current_time > $last_timestamp)
             {
-                //send to database
+                // send to database
                 $sql->storeTelemetry($db_login['database_settings'], $message);
-                //add to current message list
+                // add to current message to list
                 array_push($stored_messages, $clean_message);
             }
         }
