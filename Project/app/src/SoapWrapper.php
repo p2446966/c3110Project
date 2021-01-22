@@ -30,7 +30,7 @@ class SoapWrapper
 
     /**
      * Soap Client
-     * @return \SoapClient|string
+     * @return SoapClient|string
      * provides a client for SOAP sever
      * protocol to access web service over HTTP.
      */

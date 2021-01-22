@@ -5,6 +5,7 @@
  * @return mixed
  * Refresh button is to view users
  * Ban and unban buttons are to have control of users
+ * Login request for admin account, to ensure correct authentication applied
  */
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,12 +14,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-$app->get(/**
- * @param Request $request
- * @param Response $response
- * @return mixed
- * Login request for admin account, to ensure correct authentication applied
- */ function (Request $request, Response $response) use ($app){
+$app->get(function (Request $request, Response $response) use ($app){
     session_start();
     $twigsArray = $app->getContainer()->get('sessionsModel')->getStatus();
 
