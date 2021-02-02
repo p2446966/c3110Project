@@ -22,8 +22,9 @@ define('ADMIN_LOG', $log_file_path . $log_file_admin);
 
 $wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);
-define('SOAP_USER', '20_2446966');
-define('SOAP_PASS', 'Assemena1234');
+//fill in with account details
+define('SOAP_USER', '');
+define('SOAP_PASS', '');
 
 $error_codes = [
     '404' => 'Error 404 : Page not found',
@@ -51,8 +52,8 @@ $settings = [
         ],
         "database_settings" => [
            'HOST' => 'localhost',
-           'USER' => 'apiprojectmanager',
-           'PASS' => '0t4KO0eyKTIijJro',
+           'USER' => '',
+           'PASS' => '',
            'NAME' => 'apiproject',
         ],
     ],
